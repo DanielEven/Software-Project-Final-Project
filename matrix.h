@@ -18,7 +18,7 @@ void free_matrix(Matrix a);
 
 /* Creating a matrix.*/
 Matrix copy_matrix(Matrix a);
-Matrix matrix_from_arr(int **arr);
+Matrix matrix_from_arr(int **arr, int m, int n);
 Matrix matrix_from_PyList(PyObject *lst);
 
 /* Operations over matrices. 
