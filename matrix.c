@@ -42,7 +42,7 @@ Matrix dup_matrix(Matrix a)
             to.vals[i][j] = a.vals[i][j];
     return to;
 }
-Matrix matrix_from_arr(int **arr, int m, int n)
+Matrix matrix_from_arr(double **arr, int m, int n)
 {
     int i, j;
     Matrix to;

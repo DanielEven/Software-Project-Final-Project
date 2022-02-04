@@ -2,6 +2,8 @@
 #define MATRIX_H
 
 #include <stdlib.h>
+
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 /* Defining the matrix struct. */
@@ -18,7 +20,7 @@ void free_matrix(Matrix a);
 
 /* Creating a matrix.*/
 Matrix dup_matrix(Matrix a);
-Matrix matrix_from_arr(int **arr, int m, int n);
+Matrix matrix_from_arr(double **arr, int m, int n);
 Matrix matrix_from_PyList(PyObject *lst);
 
 /* Operations over matrices. 
