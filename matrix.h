@@ -17,7 +17,7 @@ Matrix alloc_matrix(int m, int n);
 void free_matrix(Matrix a);
 
 /* Creating a matrix.*/
-Matrix copy_matrix(Matrix a);
+Matrix dup_matrix(Matrix a);
 Matrix matrix_from_arr(int **arr, int m, int n);
 Matrix matrix_from_PyList(PyObject *lst);
 
@@ -33,9 +33,8 @@ void sub_matrix(Matrix res, Matrix a, Matrix b);
 void sub_matrix_inp(Matrix a, Matrix b);
 
 void dot_matrix(Matrix res, Matrix a, Matrix b);
-void dot_matrix_inp(Matrix a, Matrix b);
 
-void mul_matrix(Matrix res, Matrix a, double scalar);
-void mul_matrix_inp(Matrix a, double scalar);
+void mult_matrix(Matrix res, Matrix a, double scalar);
+void mult_matrix_inp(Matrix a, double scalar);
 
 #endif

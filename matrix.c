@@ -8,9 +8,17 @@ Matrix alloc_matrix(int m, int n)
     to.m = m;
     to.n = n;
     to.vals = calloc(m, sizeof(double *));
+    if (!to.vals)
+    {
+        /* TODO handle error.*/
+    }
     for (int i = 0; i < m; i++)
     {
         to.vals[i] = calloc(n, sizeof(double));
+        if (!to.vals[i])
+        {
+            /* TODO handle error.*/
+        }
     }
     return to;
 }
@@ -23,7 +31,7 @@ void free_matrix(Matrix a)
     free(a.vals);
 }
 
-Matrix copy_matrix(Matrix a)
+Matrix dup_matrix(Matrix a)
 {
     int i, j;
     Matrix to;
@@ -64,14 +72,80 @@ Matrix matrix_from_PyList(PyObject *lst)
     return to;
 }
 
-void add_matrix(Matrix res, Matrix a, Matrix b) {}
-void add_matrix_inp(Matrix a, Matrix b) {}
+void add_matrix(Matrix res, Matrix a, Matrix b)
+{
+    int i, j;
+    Matrix res;
 
-void sub_matrix(Matrix res, Matrix a, Matrix b) {}
-void sub_matrix_inp(Matrix a, Matrix b) {}
+    assert(SAME_SIZE(a, b));
+    res = alloc_matrix(a.m, a.n);
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            res.vals[i][j] = a.vals[i][j] + b.vals[i][j];
+    return res;
+}
+void add_matrix_inp(Matrix a, Matrix b)
+{
+    int i, j;
 
-void dot_matrix(Matrix res, Matrix a, Matrix b) {}
-void dot_matrix_inp(Matrix a, Matrix b) {}
+    assert(SAME_SIZE(a, b));
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            a.vals[i][j] += b.vals[i][j];
+}
 
-void mul_matrix(Matrix res, Matrix a, double scalar) {}
-void mul_matrix_inp(Matrix a, double scalar) {}
+void sub_matrix(Matrix res, Matrix a, Matrix b)
+{
+    int i, j;
+    Matrix res;
+
+    assert(SAME_SIZE(a, b));
+    res = alloc_matrix(a.m, a.n);
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            res.vals[i][j] = a.vals[i][j] - b.vals[i][j];
+    return res;
+}
+void sub_matrix_inp(Matrix a, Matrix b)
+{
+    int i, j;
+
+    assert(SAME_SIZE(a, b));
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            a.vals[i][j] -= b.vals[i][j];
+}
+
+void dot_matrix(Matrix res, Matrix a, Matrix b)
+{
+    int i, j, k;
+    Matrix res;
+
+    assert(GOOD_FOR_DOT(a, b));
+    res = alloc_matrix(a.m, b.n);
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < b.n; j++)
+            for (k = 0; k < a.n; k++)
+                res.vals[i][j] = a.vals[i][k] * b.vals[k][j];
+    return res;
+}
+
+void mult_matrix(Matrix res, Matrix a, double scalar)
+{
+    int i, j;
+    Matrix res;
+
+    res = alloc_matrix(a.m, a.n);
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            res.vals[i][j] *= scalar;
+    return res;
+}
+void mult_matrix_inp(Matrix a, double scalar)
+{
+    int i, j;
+
+    for (i = 0; i < a.m; i++)
+        for (j = 0; j < a.n; j++)
+            a.vals[i][j] *= scalar;
+}
