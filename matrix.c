@@ -12,7 +12,7 @@ Matrix alloc_matrix(int m, int n)
     {
         /* TODO handle error.*/
     }
-    for (int i = 0; i < m; i++)
+    for (i = 0; i < m; i++)
     {
         to.vals[i] = calloc(n, sizeof(double));
         if (!to.vals[i])
@@ -75,14 +75,12 @@ Matrix matrix_from_PyList(PyObject *lst)
 void add_matrix(Matrix res, Matrix a, Matrix b)
 {
     int i, j;
-    Matrix res;
 
     assert(SAME_SIZE(a, b));
     res = alloc_matrix(a.m, a.n);
     for (i = 0; i < a.m; i++)
         for (j = 0; j < a.n; j++)
             res.vals[i][j] = a.vals[i][j] + b.vals[i][j];
-    return res;
 }
 void add_matrix_inp(Matrix a, Matrix b)
 {
@@ -97,14 +95,12 @@ void add_matrix_inp(Matrix a, Matrix b)
 void sub_matrix(Matrix res, Matrix a, Matrix b)
 {
     int i, j;
-    Matrix res;
 
     assert(SAME_SIZE(a, b));
     res = alloc_matrix(a.m, a.n);
     for (i = 0; i < a.m; i++)
         for (j = 0; j < a.n; j++)
             res.vals[i][j] = a.vals[i][j] - b.vals[i][j];
-    return res;
 }
 void sub_matrix_inp(Matrix a, Matrix b)
 {
@@ -119,7 +115,6 @@ void sub_matrix_inp(Matrix a, Matrix b)
 void dot_matrix(Matrix res, Matrix a, Matrix b)
 {
     int i, j, k;
-    Matrix res;
 
     assert(GOOD_FOR_DOT(a, b));
     res = alloc_matrix(a.m, b.n);
@@ -127,19 +122,16 @@ void dot_matrix(Matrix res, Matrix a, Matrix b)
         for (j = 0; j < b.n; j++)
             for (k = 0; k < a.n; k++)
                 res.vals[i][j] = a.vals[i][k] * b.vals[k][j];
-    return res;
 }
 
 void mult_matrix(Matrix res, Matrix a, double scalar)
 {
     int i, j;
-    Matrix res;
 
     res = alloc_matrix(a.m, a.n);
     for (i = 0; i < a.m; i++)
         for (j = 0; j < a.n; j++)
-            res.vals[i][j] *= scalar;
-    return res;
+            res.vals[i][j] = a.vals[i][j] * scalar;
 }
 void mult_matrix_inp(Matrix a, double scalar)
 {

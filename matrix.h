@@ -2,8 +2,8 @@
 #define MATRIX_H
 
 #include <stdlib.h>
+#include <assert.h>
 
-#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 /* Defining the matrix struct. */
@@ -38,5 +38,9 @@ void dot_matrix(Matrix res, Matrix a, Matrix b);
 
 void mult_matrix(Matrix res, Matrix a, double scalar);
 void mult_matrix_inp(Matrix a, double scalar);
+
+/* Size checking macros.*/
+#define SAME_SIZE(a, b) (((a.m) == (b.m)) && ((a.n) == (b.n)))
+#define GOOD_FOR_DOT(a, b) ((a.n) == (b.m))
 
 #endif
