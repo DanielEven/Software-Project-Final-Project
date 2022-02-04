@@ -121,7 +121,7 @@ void dot_matrix(Matrix res, Matrix a, Matrix b)
     for (i = 0; i < a.m; i++)
         for (j = 0; j < b.n; j++)
             for (k = 0; k < a.n; k++)
-                res.vals[i][j] = a.vals[i][k] * b.vals[k][j];
+                res.vals[i][j] += a.vals[i][k] * b.vals[k][j];
 }
 
 void mult_matrix(Matrix res, Matrix a, double scalar)

@@ -40,7 +40,7 @@ void mult_matrix(Matrix res, Matrix a, double scalar);
 void mult_matrix_inp(Matrix a, double scalar);
 
 /* Size checking macros.*/
-#define SAME_SIZE(a, b) (((a.m) == (b.m)) && ((a.n) == (b.n)))
-#define GOOD_FOR_DOT(a, b) ((a.n) == (b.m))
+#define SAME_SIZE(a, b) ((((a).m) == ((b).m)) && (((a).n) == ((b).n)))
+#define GOOD_FOR_DOT(a, b) (((a).n) == ((b).m))
 
 #endif
