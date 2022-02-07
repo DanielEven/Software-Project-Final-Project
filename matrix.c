@@ -72,15 +72,18 @@ Matrix *matrix_from_PyList(PyObject *lst)
     return to;
 }
 
-void add_matrix(Matrix *res, Matrix *a, Matrix *b)
+Matrix *add_matrix(Matrix *a, Matrix *b)
 {
     int i, j;
+    Matrix *res;
 
     assert(SAME_SIZE(a, b));
     res = alloc_matrix(a->m, a->n);
     for (i = 0; i < a->m; i++)
         for (j = 0; j < a->n; j++)
             res->vals[i][j] = a->vals[i][j] + b->vals[i][j];
+
+    return res;
 }
 
 void add_matrix_inp(Matrix *a, Matrix *b)
@@ -93,15 +96,18 @@ void add_matrix_inp(Matrix *a, Matrix *b)
             a->vals[i][j] += b->vals[i][j];
 }
 
-void sub_matrix(Matrix *res, Matrix *a, Matrix *b)
+Matrix *sub_matrix(Matrix *a, Matrix *b)
 {
     int i, j;
+    Matrix *res;
 
     assert(SAME_SIZE(a, b));
     res = alloc_matrix(a->m, a->n);
     for (i = 0; i < a->m; i++)
         for (j = 0; j < a->n; j++)
             res->vals[i][j] = a->vals[i][j] - b->vals[i][j];
+
+    return res;
 }
 
 void sub_matrix_inp(Matrix *a, Matrix *b)
@@ -114,9 +120,10 @@ void sub_matrix_inp(Matrix *a, Matrix *b)
             a->vals[i][j] -= b->vals[i][j];
 }
 
-void dot_matrix(Matrix *res, Matrix *a, Matrix *b)
+Matrix *dot_matrix(Matrix *a, Matrix *b)
 {
     int i, j, k;
+    Matrix *res;
 
     assert(GOOD_FOR_DOT(a, b));
     res = alloc_matrix(a->m, b->n);
@@ -124,16 +131,21 @@ void dot_matrix(Matrix *res, Matrix *a, Matrix *b)
         for (j = 0; j < b->n; j++)
             for (k = 0; k < a->n; k++)
                 res->vals[i][j] += a->vals[i][k] * b->vals[k][j];
+
+    return res;
 }
 
-void mult_matrix(Matrix *res, Matrix *a, double scalar)
+Matrix *mult_matrix(Matrix *a, double scalar)
 {
     int i, j;
+    Matrix *res;
 
     res = alloc_matrix(a->m, a->n);
     for (i = 0; i < a->m; i++)
         for (j = 0; j < a->n; j++)
             res->vals[i][j] = a->vals[i][j] * scalar;
+
+    return res;
 }
 
 void mult_matrix_inp(Matrix *a, double scalar)
