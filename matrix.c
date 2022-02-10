@@ -29,6 +29,7 @@ void free_matrix(Matrix *a)
     for (i = 0; i < a->m; i++)
         free(a->vals[i]);
     free(a->vals);
+    free(a);
 }
 
 Matrix *dup_matrix(Matrix *a)

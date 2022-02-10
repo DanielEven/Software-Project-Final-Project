@@ -140,5 +140,5 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
         arr[i] = pairs[i].vect;
     }
 
-    return matrix_from_arr(arr, k, pairs);
+    return matrix_from_arr(arr, k, n);
 }
