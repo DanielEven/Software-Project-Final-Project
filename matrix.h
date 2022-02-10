@@ -43,11 +43,24 @@ void mult_matrix_inp(Matrix *a, double scalar);
 Matrix *pow_elem_matrix(Matrix *a, double alpha);
 void pow_elem_matrix_inp(Matrix *a, double alpha);
 
+Matrix *transpose_matrix(Matrix *a);
+
 /* A function to get I. */
 Matrix *get_identity(int n);
+
+/* A function to check if a matrix is diagonal. */
+int is_diag(Matrix *a);
 
 /* Size checking macros.*/
 #define SAME_SIZE(a, b) ((((a)->m) == ((b)->m)) && (((a)->n) == ((b)->n)))
 #define GOOD_FOR_DOT(a, b) (((a)->n) == ((b)->m))
+#define IS_SQUARE(a) (((a)->m) == ((a)->n))
+
+/* Defining the Index struct. */
+typedef struct Index
+{
+    int i;
+    int j;
+} Index;
 
 #endif

@@ -179,6 +179,19 @@ void pow_elem_matrix_inp(Matrix *a, double alpha)
             a->vals[i][j] = pow(a->vals[i][j], alpha);
 }
 
+Matrix *transpose_matrix(Matrix *a)
+{
+    int i, j;
+    Matrix *res;
+
+    res = alloc_matrix(a->n, a->m);
+    for (i = 0; i < a->n; i++)
+        for (j = 0; j < a->m; j++)
+            res->vals[i][j] = a->vals[j][i];
+
+    return res;
+}
+
 Matrix *get_identity(int n)
 {
     int i;
@@ -188,4 +201,20 @@ Matrix *get_identity(int n)
         to->vals[i][i] = 1;
 
     return to;
+}
+
+int is_diag(Matrix *a)
+{
+    int i, j;
+    assert(IS_SQUARE(a));
+
+    for (i = 0; i < a->m; i++)
+    {
+        for (j = 0; j < a->n; j++)
+        {
+            if ((i != j) && (a->vals[i][j] != 0))
+                return 0;
+        }
+    }
+    return 1;
 }
