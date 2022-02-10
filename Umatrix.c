@@ -129,3 +129,16 @@ int cmp_Eigen_Pair(const void *a, const void *b)
 {
     return 0;
 }
+
+Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
+{
+    int i;
+    double **arr = calloc(k, sizeof(double *));
+
+    for (i = 0; i < k; i++)
+    {
+        arr[i] = pairs[i].vect;
+    }
+
+    return matrix_from_arr(arr, k, pairs);
+}
