@@ -109,7 +109,7 @@ double get_t(double theta)
 
 double get_c(double t)
 {
-    double denom = dqrt(pow(t, 2) + 1);
+    double denom = sqrt(pow(t, 2) + 1);
 
     return 1 / denom;
 }
