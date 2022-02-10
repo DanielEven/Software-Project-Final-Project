@@ -1,0 +1,21 @@
+name: Build Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: create main
+      run: echo "int main(){return 0;}" >> empty_main.c
+    - name: make
+      run: make
+    - name: make clean
+      run: make clean && rm empty_main.c
