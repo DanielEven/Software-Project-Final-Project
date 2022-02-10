@@ -156,3 +156,36 @@ void mult_matrix_inp(Matrix *a, double scalar)
         for (j = 0; j < a->n; j++)
             a->vals[i][j] *= scalar;
 }
+
+Matrix *pow_elem_matrix(Matrix *a, double alpha)
+{
+    int i, j;
+    Matrix *res;
+
+    res = alloc_matrix(a->m, a->n);
+    for (i = 0; i < a->m; i++)
+        for (j = 0; j < a->n; j++)
+            res->vals[i][j] = pow(a->vals[i][j], alpha);
+
+    return res;
+}
+
+void pow_elem_matrix_inp(Matrix *a, double alpha)
+{
+    int i, j;
+
+    for (i = 0; i < a->m; i++)
+        for (j = 0; j < a->n; j++)
+            a->vals[i][j] = pow(a->vals[i][j], alpha);
+}
+
+Matrix *get_identity(int n)
+{
+    int i;
+    Matrix *to = alloc_matrix(n, n);
+
+    for (i = 0; i < n; i++)
+        to->vals[i][i] = 1;
+
+    return to;
+}

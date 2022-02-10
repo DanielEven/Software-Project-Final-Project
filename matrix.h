@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 #include <Python.h>
 
@@ -38,6 +39,12 @@ Matrix *dot_matrix(Matrix *a, Matrix *b);
 
 Matrix *mult_matrix(Matrix *a, double scalar);
 void mult_matrix_inp(Matrix *a, double scalar);
+
+Matrix *pow_elem_matrix(Matrix *a, double alpha);
+void pow_elem_matrix_inp(Matrix *a, double alpha);
+
+/* A function to get I. */
+Matrix *get_identity(int n);
 
 /* Size checking macros.*/
 #define SAME_SIZE(a, b) ((((a)->m) == ((b)->m)) && (((a)->n) == ((b)->n)))

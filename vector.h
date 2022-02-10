@@ -2,6 +2,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <math.h>
+
 /* Euclidean norm calculation. */
 double get_dist(double *v1, double *v2, int d);
 
