@@ -92,23 +92,26 @@ Index get_pivot_index(Matrix *A)
 
 double get_theta(Matrix *A, Index ind)
 {
-    double theta;
+    double nom, denom;
 
-    return theta;
+    nom = A->vals[ind.j][ind.j] - A->vals[ind.i][ind.i];
+    denom = 2 * A->vals[ind.i][ind.j];
+
+    return nom / denom;
 }
 
 double get_t(double theta)
 {
-    double t;
+    double denom = abs(theta) + sqrt(pow(theta, 2) + 1);
 
-    return t;
+    return SIGN(theta) / denom;
 }
 
 double get_c(double t)
 {
-    double c;
+    double denom = dqrt(pow(t, 2) + 1);
 
-    return c;
+    return 1 / denom;
 }
 
 int has_converged(Matrix *A, Matrix *A_tag)
@@ -127,7 +130,7 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 
 int cmp_Eigen_Pair(const void *a, const void *b)
 {
-    return 0;
+    return ((Eigen_Pair *)a)->val - ((Eigen_Pair *)b)->val;
 }
 
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
