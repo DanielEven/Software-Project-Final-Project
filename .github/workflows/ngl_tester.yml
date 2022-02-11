@@ -1,0 +1,21 @@
+name: Normalized Graph Laplacian Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make test_ngl_matrix
+    - name: check output
+      run: python3 tests/testers/NGL_tester.py
+    - name: clean
+      run: make clean
