@@ -1,6 +1,6 @@
 #include "NGLmatrix.h"
 
-Matrix *Create_DD_matrix(Matrix *WAmatrix)
+Matrix *create_DD_matrix(Matrix *WAmatrix)
 {
     int i, z;
     Matrix *res;
@@ -17,7 +17,7 @@ Matrix *Create_DD_matrix(Matrix *WAmatrix)
     return res;
 }
 
-Matrix *Create_NGL_matrix(Matrix *WAmatrix, Matrix *DDmatrix)
+Matrix *create_NGL_matrix(Matrix *WAmatrix, Matrix *DDmatrix)
 {
     Matrix *res, *tmp1, *tmp2, *inv_sqrt_DDmatrix;
 

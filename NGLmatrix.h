@@ -4,10 +4,10 @@
 #include "matrix.h"
 
 /* A function which creates the Diagonal Degree Matrix from the Weighted Adjacency Matrix. */
-Matrix *Create_DD_matrix(Matrix *WAmatrix);
+Matrix *create_DD_matrix(Matrix *WAmatrix);
 
 /* A function which creates the Normalized Graph Laplacian
 from the Weighted Adjacency Matrix and Diagonal Degree Matrix. */
-Matrix *Create_NGL_matrix(Matrix *WAmatrix, Matrix *DDmatrix);
+Matrix *create_NGL_matrix(Matrix *WAmatrix, Matrix *DDmatrix);
 
 #endif

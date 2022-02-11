@@ -1,6 +1,6 @@
 #include "WAmatrix.h"
 
-Matrix *Create_WA_matrix(Matrix *vects_rows)
+Matrix *create_WA_matrix(Matrix *vects_rows)
 {
     int i, j;
     Matrix *res;

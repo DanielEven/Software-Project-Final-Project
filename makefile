@@ -10,9 +10,16 @@ python:
 # Deleting the output files.
 clean:
 	rm out
+	rm tests/testers/*.txt
 
 ## Testing different c files:
 
 # Matrix
-test_matrix: matrix.c tests/matrix_tst.c
-	gcc -I/usr/include/python3.8 matrix.c tests/matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+test_matrix: tests/matrix_tst.c
+	gcc -I/usr/include/python3.8 *.c tests/matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+# Weighted Adjacency Matrix
+test_wa_matrix: tests/WA_matrix_tst.c
+	gcc -I/usr/include/python3.8 *.c tests/WA_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+# Normalized Graph Laplacian Matrix
+test_ngl_matrix: tests/NGL_matrix_tst.c
+	gcc -I/usr/include/python3.8 *.c tests/NGL_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
