@@ -40,8 +40,9 @@ Matrix *dot_matrix(Matrix *a, Matrix *b);
 Matrix *mult_matrix(Matrix *a, double scalar);
 void mult_matrix_inp(Matrix *a, double scalar);
 
-Matrix *pow_elem_matrix(Matrix *a, double alpha);
-void pow_elem_matrix_inp(Matrix *a, double alpha);
+/* Power the diagonal of a square matrix. */
+Matrix *pow_diag_matrix(Matrix *a, double alpha);
+void pow_diag_matrix_inp(Matrix *a, double alpha);
 
 Matrix *transpose_matrix(Matrix *a);
 

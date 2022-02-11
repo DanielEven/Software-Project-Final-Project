@@ -158,26 +158,24 @@ void mult_matrix_inp(Matrix *a, double scalar)
             a->vals[i][j] *= scalar;
 }
 
-Matrix *pow_elem_matrix(Matrix *a, double alpha)
+Matrix *pow_diag_matrix(Matrix *a, double alpha)
 {
     int i, j;
     Matrix *res;
 
     res = alloc_matrix(a->m, a->n);
     for (i = 0; i < a->m; i++)
-        for (j = 0; j < a->n; j++)
-            res->vals[i][j] = pow(a->vals[i][j], alpha);
+        res->vals[i][i] = pow(a->vals[i][i], alpha);
 
     return res;
 }
 
-void pow_elem_matrix_inp(Matrix *a, double alpha)
+void pow_diag_matrix_inp(Matrix *a, double alpha)
 {
     int i, j;
 
     for (i = 0; i < a->m; i++)
-        for (j = 0; j < a->n; j++)
-            a->vals[i][j] = pow(a->vals[i][j], alpha);
+        a->vals[i][i] = pow(a->vals[i][i], alpha);
 }
 
 Matrix *transpose_matrix(Matrix *a)

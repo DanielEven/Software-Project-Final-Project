@@ -23,7 +23,7 @@ Matrix *create_NGL_matrix(Matrix *WAmatrix, Matrix *DDmatrix)
 
     res = get_identity(DDmatrix->m);
 
-    inv_sqrt_DDmatrix = pow_elem_matrix(DDmatrix, -0.5);
+    inv_sqrt_DDmatrix = pow_diag_matrix(DDmatrix, -0.5);
     tmp1 = dot_matrix(inv_sqrt_DDmatrix, WAmatrix);
     tmp2 = dot_matrix(tmp1, inv_sqrt_DDmatrix);
 
