@@ -39,4 +39,7 @@ int main()
     /*printf("\nWA Matrix:\n");*/
     WA = create_WA_matrix(m);
     print_mat(WA);
+
+    free_matrix(WA);
+    free_matrix(m);
 }

@@ -41,4 +41,9 @@ int main()
     NGL = create_NGL_matrix(WA, DD);
 
     print_mat(NGL);
+
+    free_matrix(m);
+    free_matrix(WA);
+    free_matrix(DD);
+    free_matrix(NGL);
 }
