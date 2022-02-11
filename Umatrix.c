@@ -1,6 +1,6 @@
 #include "Umatrix.h"
 
-Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 {
     /* Declaring variables. */
     int iter_count = 0, n = NGL->n, i, k;
@@ -92,7 +92,7 @@ Matrix *transform_A(Matrix *A, Matrix *P)
 Index get_pivot_index(Matrix *A)
 {
     int row, col;
-    double max_val = -1;
+    double max_val = DBL_MIN;
     Index res;
     for (row = 0; row < A->m; row++)
     {
@@ -135,9 +135,22 @@ double get_c(double t)
 
 int has_converged(Matrix *A, Matrix *A_tag)
 {
-    double eps = 1.0 * pow(10, -15);
+    const double eps = 1.0 * pow(10, -15);
     return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
+
+double off_sqr_of_sym_matrix(Matrix *A)
+{
+    double sum = 0;
+    int i, j;
+    for (i = 0; i < A->m; i++)
+    {
+        for (j = i + 1; j < A->n; j++)
+            sum += 2 * pow(A->vals[i][j], 2);
+    }
+    return sum;
+}
+
 
 Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 {
@@ -176,16 +189,4 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
     }
 
     return matrix_from_arr(arr, n, k);
-}
-
-double off_sqr_of_sym_matrix(Matrix *A)
-{
-    double sum = 0;
-    int i, j;
-    for (i = 0; i < A->m; i++)
-    {
-        for (j = i + 1; j < A->n; j++)
-            sum += 2 * pow(A->vals[i][j], 2);
-    }
-    return sum;
 }
