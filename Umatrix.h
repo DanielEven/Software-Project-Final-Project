@@ -52,4 +52,7 @@ n is the vector length.
 */
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n);
 
+/* Calculating the squared off of a matrix, optimized for symmetric matrixes */
+double off_sqr_of_sym_matrix(Matrix *A);
+
 #endif

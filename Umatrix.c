@@ -40,7 +40,7 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     /* Eigengap Heuristic. */
     for (i = 0; i < n / 2; i++)
     {
-        double delta = abs(pairs_arr[i].val - pairs_arr[i + 1].val);
+        double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
         if (delta > max_delta) /* Bigger, not equal. */
         {
             max_delta = delta;
@@ -52,7 +52,7 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
 
     /* Freeing variables. */
-    for (i = k+1; i<n; i++)
+    for (i = k + 1; i < n; i++)
         free(pairs_arr[i].vect);
     free(pairs_arr);
 
@@ -91,10 +91,21 @@ Matrix *transform_A(Matrix *A, Matrix *P)
 
 Index get_pivot_index(Matrix *A)
 {
+    int row, col;
+    double max_val = -1;
     Index res;
-
-    // TODO
-
+    for (row = 0; row < A->m; row++)
+    {
+        for (col = row + 1; col < A->n; col++)
+        {
+            if (fabs(A->vals[row][col]) > max_val)
+            {
+                max_val = fabs(A->vals[row][col]);
+                res.i = row;
+                res.j = col;
+            }
+        }
+    }
     return res;
 }
 
@@ -110,7 +121,7 @@ double get_theta(Matrix *A, Index ind)
 
 double get_t(double theta)
 {
-    double denom = abs(theta) + sqrt(pow(theta, 2) + 1);
+    double denom = fabs(theta) + sqrt(pow(theta, 2) + 1);
 
     return SIGN(theta) / denom;
 }
@@ -124,11 +135,8 @@ double get_c(double t)
 
 int has_converged(Matrix *A, Matrix *A_tag)
 {
-    int res;
-
-    // TODO
-
-    return res;
+    double eps = 1.0 * pow(10, -15);
+    return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
 
 Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
@@ -166,4 +174,16 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
     }
 
     return matrix_from_arr(arr, k, n);
+}
+
+double off_sqr_of_sym_matrix(Matrix *A)
+{
+    double sum = 0;
+    int i,j;
+    for (i = 0; i < A->m; i++)
+    {
+        for (j = i + 1; j < A->n; j++)
+            sum += 2 * pow(A->vals[i][j], 2);
+    }
+    return sum;
 }
