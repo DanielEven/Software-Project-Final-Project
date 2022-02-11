@@ -52,7 +52,7 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
 
     /* Freeing variables. */
-    for (i = k + 1; i < n; i++)
+    for (i = 0; i < n; i++)
         free(pairs_arr[i].vect);
     free(pairs_arr);
 
@@ -161,25 +161,27 @@ int cmp_Eigen_Pair(const void *a, const void *b)
 
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
 {
-    int i;
-    double **arr = calloc(k, sizeof(double *));
+    int i, j;
+    double **arr = calloc(n, sizeof(double *));
     if (!arr)
     {
         /* TODO handle error.*/
     }
 
-    for (i = 0; i < k; i++)
+    for (i = 0; i < n; i++)
     {
-        arr[i] = pairs[i].vect;
+        arr[i] = calloc(k, sizeof(double));
+        for (j = 0; j < k; j++)
+            arr[i][j] = pairs[j].vect[i];
     }
 
-    return matrix_from_arr(arr, k, n);
+    return matrix_from_arr(arr, n, k);
 }
 
 double off_sqr_of_sym_matrix(Matrix *A)
 {
     double sum = 0;
-    int i,j;
+    int i, j;
     for (i = 0; i < A->m; i++)
     {
         for (j = i + 1; j < A->n; j++)
