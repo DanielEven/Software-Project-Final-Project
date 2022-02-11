@@ -52,6 +52,8 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
 
     /* Freeing variables. */
+    for (i = k+1; i<n; i++)
+        free(pairs_arr[i].vect);
     free(pairs_arr);
 
     return U;
@@ -146,7 +148,7 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 
 int cmp_Eigen_Pair(const void *a, const void *b)
 {
-    return ((Eigen_Pair *)a)->val - ((Eigen_Pair *)b)->val;
+    return ((const Eigen_Pair *)a)->val - ((const Eigen_Pair *)b)->val;
 }
 
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
