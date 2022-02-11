@@ -9,8 +9,8 @@ python:
 
 # Deleting the output files.
 clean:
-	rm out
-	rm tests/testers/*.txt
+	rm -f out
+	rm -f tests/testers/*.txt
 
 ## Testing different c files:
 
