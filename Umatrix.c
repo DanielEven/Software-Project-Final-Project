@@ -139,19 +139,6 @@ int has_converged(Matrix *A, Matrix *A_tag)
     return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
 
-double off_sqr_of_sym_matrix(Matrix *A)
-{
-    double sum = 0;
-    int i, j;
-    for (i = 0; i < A->m; i++)
-    {
-        for (j = i + 1; j < A->n; j++)
-            sum += 2 * pow(A->vals[i][j], 2);
-    }
-    return sum;
-}
-
-
 Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 {
     int i;
@@ -184,6 +171,10 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
     for (i = 0; i < n; i++)
     {
         arr[i] = calloc(k, sizeof(double));
+        if (!(arr[i]))
+        {
+            /* TODO handle error.*/
+        }
         for (j = 0; j < k; j++)
             arr[i][j] = pairs[j].vect[i];
     }

@@ -34,9 +34,6 @@ double get_c(double t);
 /* Checking the convergance of the algorithm. */
 int has_converged(Matrix *A, Matrix *A_tag);
 
-/* Calculating the squared off of a matrix, optimized for symmetric matrixes */
-double off_sqr_of_sym_matrix(Matrix *A);
-
 /* Creating a struct for a pair: eigenvectors, eigenvalues.*/
 typedef struct Eigen_Pair
 {

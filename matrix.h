@@ -51,6 +51,9 @@ Matrix *get_identity(int n);
 /* A function to check if a matrix is diagonal. */
 int is_diag(Matrix *a);
 
+/* A function to calculate the squared off of a matrix, optimized for symmetric matrixes */
+double off_sqr_of_sym_matrix(Matrix *A);
+
 /* Size checking macros.*/
 #define SAME_SIZE(a, b) ((((a)->m) == ((b)->m)) && (((a)->n) == ((b)->n)))
 #define GOOD_FOR_DOT(a, b) (((a)->n) == ((b)->m))
