@@ -30,10 +30,12 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
     qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
-    free(A->vals);
-    free(A);
+
+    /* Freeing the matrices. */
+    free_matrix(A); /* We also took the eigenvalues. */
     free(V->vals);
     free(V);
+    /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
 
     /* Eigengap Heuristic. */
     for (i = 0; i < n / 2; i++)
@@ -49,7 +51,9 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     /* Create and return the U matrix. */
     U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
 
-    /* TODO freeing variables. */
+    /* Freeing variables. */
+    free(pairs_arr);
+
     return U;
 }
 
@@ -87,6 +91,8 @@ Index get_pivot_index(Matrix *A)
 {
     Index res;
 
+    // TODO
+
     return res;
 }
 
@@ -118,12 +124,22 @@ int has_converged(Matrix *A, Matrix *A_tag)
 {
     int res;
 
+    // TODO
+
     return res;
 }
 
 Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 {
+    int i;
     Eigen_Pair *res;
+    res = calloc(vects->m, sizeof(Eigen_Pair));
+
+    for (i = 0; i < vects->m; i++)
+    {
+        res[i].vect = vects->vals[i];
+        res[i].val = values->vals[i][i];
+    }
 
     return res;
 }
@@ -137,6 +153,10 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
 {
     int i;
     double **arr = calloc(k, sizeof(double *));
+    if (!arr)
+    {
+        /* TODO handle error.*/
+    }
 
     for (i = 0; i < k; i++)
     {

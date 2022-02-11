@@ -4,6 +4,10 @@ Matrix *alloc_matrix(int m, int n)
 {
     int i;
     Matrix *to = malloc(sizeof(Matrix));
+    if (!to)
+    {
+        /* TODO handle error.*/
+    }
 
     to->m = m;
     to->n = n;
