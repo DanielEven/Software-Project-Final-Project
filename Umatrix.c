@@ -1,6 +1,6 @@
 #include "Umatrix.h"
 
-Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 {
     /* Declaring variables. */
     int iter_count = 0, n = NGL->n, i, k;
@@ -30,15 +30,17 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
     qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
-    free(A->vals);
-    free(A);
+
+    /* Freeing the matrices. */
+    free_matrix(A); /* We also took the eigenvalues. */
     free(V->vals);
     free(V);
+    /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
 
     /* Eigengap Heuristic. */
     for (i = 0; i < n / 2; i++)
     {
-        double delta = abs(pairs_arr[i].val - pairs_arr[i + 1].val);
+        double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
         if (delta > max_delta) /* Bigger, not equal. */
         {
             max_delta = delta;
@@ -49,7 +51,11 @@ Matrix *Create_k_eigenvectors_matrix(Matrix *NGL)
     /* Create and return the U matrix. */
     U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
 
-    /* TODO freeing variables. */
+    /* Freeing variables. */
+    for (i = 0; i < n; i++)
+        free(pairs_arr[i].vect);
+    free(pairs_arr);
+
     return U;
 }
 
@@ -85,60 +91,93 @@ Matrix *transform_A(Matrix *A, Matrix *P)
 
 Index get_pivot_index(Matrix *A)
 {
+    int row, col;
+    double max_val = DBL_MIN;
     Index res;
-
+    for (row = 0; row < A->m; row++)
+    {
+        for (col = row + 1; col < A->n; col++)
+        {
+            if (fabs(A->vals[row][col]) > max_val)
+            {
+                max_val = fabs(A->vals[row][col]);
+                res.i = row;
+                res.j = col;
+            }
+        }
+    }
     return res;
 }
 
 double get_theta(Matrix *A, Index ind)
 {
-    double theta;
+    double nom, denom;
 
-    return theta;
+    nom = A->vals[ind.j][ind.j] - A->vals[ind.i][ind.i];
+    denom = 2 * A->vals[ind.i][ind.j];
+
+    return nom / denom;
 }
 
 double get_t(double theta)
 {
-    double t;
+    double denom = fabs(theta) + sqrt(pow(theta, 2) + 1);
 
-    return t;
+    return SIGN(theta) / denom;
 }
 
 double get_c(double t)
 {
-    double c;
+    double denom = sqrt(pow(t, 2) + 1);
 
-    return c;
+    return 1 / denom;
 }
 
 int has_converged(Matrix *A, Matrix *A_tag)
 {
-    int res;
-
-    return res;
+    const double eps = 1.0 * pow(10, -15);
+    return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
 
 Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 {
+    int i;
     Eigen_Pair *res;
+    res = calloc(vects->m, sizeof(Eigen_Pair));
+
+    for (i = 0; i < vects->m; i++)
+    {
+        res[i].vect = vects->vals[i];
+        res[i].val = values->vals[i][i];
+    }
 
     return res;
 }
 
 int cmp_Eigen_Pair(const void *a, const void *b)
 {
-    return 0;
+    return ((const Eigen_Pair *)a)->val - ((const Eigen_Pair *)b)->val;
 }
 
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
 {
-    int i;
-    double **arr = calloc(k, sizeof(double *));
-
-    for (i = 0; i < k; i++)
+    int i, j;
+    double **arr = calloc(n, sizeof(double *));
+    if (!arr)
     {
-        arr[i] = pairs[i].vect;
+        /* TODO handle error.*/
     }
 
-    return matrix_from_arr(arr, k, n);
+    for (i = 0; i < n; i++)
+    {
+        arr[i] = calloc(k, sizeof(double));
+        if (!(arr[i]))
+        {
+            /* TODO handle error.*/
+        }
+        for (j = 0; j < k; j++)
+            arr[i][j] = pairs[j].vect[i];
+    }
+
+    return matrix_from_arr(arr, n, k);
 }

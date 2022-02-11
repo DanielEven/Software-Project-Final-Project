@@ -9,7 +9,7 @@
 /* A function which calculates the eigenvectors and eigenvalues using the jacobi algorithm and Eigengap Heuristic.
 The function returns a matrix with the k eigenvectors with the lowest eigenvalues of the Normalized Graph Laplacian matrix.
 */
-Matrix *Create_k_eigenvectors_matrix(Matrix *NGL);
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL);
 
 /* A function to create the rotation matrix P from the matrix A. */
 Matrix *create_rotation_matrix(Matrix *A);

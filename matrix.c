@@ -4,6 +4,10 @@ Matrix *alloc_matrix(int m, int n)
 {
     int i;
     Matrix *to = malloc(sizeof(Matrix));
+    if (!to)
+    {
+        /* TODO handle error.*/
+    }
 
     to->m = m;
     to->n = n;
@@ -216,4 +220,16 @@ int is_diag(Matrix *a)
         }
     }
     return 1;
+}
+
+double off_sqr_of_sym_matrix(Matrix *A)
+{
+    double sum = 0;
+    int i, j;
+    for (i = 0; i < A->m; i++)
+    {
+        for (j = i + 1; j < A->n; j++)
+            sum += 2 * pow(A->vals[i][j], 2);
+    }
+    return sum;
 }
