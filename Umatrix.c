@@ -49,7 +49,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
     qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
 
     /* Freeing the matrices. */
-    free_matrix(A); /* We also took the eigenvalues. */
+    free_matrix(A); /* We already took the eigenvalues. */
     free(V->vals);
     free(V);
     /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
@@ -173,7 +173,13 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
 
 int cmp_Eigen_Pair(const void *a, const void *b)
 {
-    return ((const Eigen_Pair *)a)->val - ((const Eigen_Pair *)b)->val;
+    double v1 = ((const Eigen_Pair *)a)->val;
+    double v2 = ((const Eigen_Pair *)b)->val;
+    if (v1 > v2)
+        return 1;
+    else if (v1 < v2)
+        return -1;
+    return 0;
 }
 
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
