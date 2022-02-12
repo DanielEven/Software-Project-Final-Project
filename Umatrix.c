@@ -16,16 +16,20 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
         P = create_rotation_matrix(A);
         A_tag = transform_A(A, P);
-
+        
         tmp = dot_matrix(V, P);
         free_matrix(V);
+        free_matrix(P);
         V = tmp;
+
+        /* Check convergence. */
+        if (has_converged(A, A_tag))
+            break;
 
         free_matrix(A);
         A = A_tag;
 
-        free_matrix(P);
-    } while (!has_converged(A, A_tag) || (++iter_count) >= 100);
+    } while ((++iter_count) < 100);
 
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
