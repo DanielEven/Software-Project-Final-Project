@@ -50,6 +50,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
     /* Freeing the matrices. */
     free_matrix(A); /* We already took the eigenvalues. */
+    free_matrix(A_tag);
     free(V->vals);
     free(V);
     /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
