@@ -25,4 +25,4 @@ test_ngl_matrix: tests/NGL_matrix_tst.c
 	gcc -I/usr/include/python3.8 *.c tests/NGL_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
 # Eigenvectors and Eigenvalues
 test_u_matrix: tests/U_matrix_tst.c
-	gcc -I/usr/include/python3.8 *.c tests/U_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+	gcc -I/usr/include/python3.8 *.c tests/U_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8 -DTESTING_JACOBI

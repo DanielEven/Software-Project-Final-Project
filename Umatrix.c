@@ -16,7 +16,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
         P = create_rotation_matrix(A);
         A_tag = transform_A(A, P);
-        
+
         tmp = dot_matrix(V, P);
         free_matrix(V);
         free_matrix(P);
@@ -30,6 +30,19 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
         A = A_tag;
 
     } while ((++iter_count) < 100);
+
+#ifdef TESTING_JACOBI /* TODO For debugging only, remember to delete.*/
+    int j;
+    for (i = 0; i < A->m; i++)
+        printf("%0.3f ", A->vals[i][i]);
+    printf("\n\n");
+    for (i = 0; i < V->m; i++)
+    {
+        for (j = 0; j < V->n; j++)
+            printf("%.3f ", V->vals[i][j]);
+        printf("\n");
+    }
+#endif
 
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);

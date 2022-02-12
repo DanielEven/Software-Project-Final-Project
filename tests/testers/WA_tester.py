@@ -3,7 +3,7 @@ import os
 
 bad = False
 
-os.system('./out >> tests/testers/WA_res.txt')
+os.system('./out > tests/testers/WA_res.txt')
 
 with open("tests/expected_WA.txt", 'r') as out, open("tests/testers/WA_res.txt", 'r') as res:
     nums_out_lines = out.read().split('\n')

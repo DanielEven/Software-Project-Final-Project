@@ -43,8 +43,6 @@ int main()
 
     U = create_k_eigenvectors_matrix(NGL);
 
-    print_mat(U);
-
     free_matrix(m);
     free_matrix(WA);
     free_matrix(DD);
