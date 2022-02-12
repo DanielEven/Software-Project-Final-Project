@@ -186,6 +186,8 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
 {
     int i, j;
     double **arr = calloc(n, sizeof(double *));
+    Matrix *to;
+
     if (!arr)
     {
         /* TODO handle error.*/
@@ -202,5 +204,7 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
             arr[i][j] = pairs[j].vect[i]; /* The vectors are the columns. */
     }
 
-    return matrix_from_arr(arr, n, k);
+    to = matrix_from_arr(arr, n, k);
+    free_vect_arr(arr, n);
+    return to;
 }

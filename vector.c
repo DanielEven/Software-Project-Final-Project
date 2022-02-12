@@ -12,3 +12,13 @@ double get_dist(double *v1, double *v2, int d)
 
     return sqrt(sum);
 }
+
+void free_vect_arr(double **v_lst, int num_of_vects)
+{
+    int i;
+    for (i = 0; i < num_of_vects; i++)
+    {
+        free(v_lst[i]);
+    }
+    free(v_lst);
+}

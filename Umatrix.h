@@ -2,6 +2,7 @@
 #define U_MATRIX_H
 
 #include "matrix.h"
+#include "vector.h"
 #include <float.h>
 
 #define SIGN(x) (((x) >= 0) * 2 - 1)
