@@ -17,14 +17,13 @@ with open("tests/expected_U.txt", 'r') as out, open("tests/testers/U_res.txt", '
             a = nums_out[j]
             b = nums_res[j]
             if a != b:
-                '''
+                
                 val = abs(float(a)-float(b))
-                if val <= 0.00011:
+                if val <= 0.0011:
                     print(f"DIFF: {a}, {b}")
                 else:
-                '''
-                print(f"BAD DIFF: {a}, {b}")
-                bad = True
+                    print(f"BAD DIFF: {a}, {b}")
+                    bad = True
 
 if bad:
     sys.exit(1)
