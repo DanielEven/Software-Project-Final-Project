@@ -176,7 +176,7 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
             /* TODO handle error.*/
         }
         for (j = 0; j < k; j++)
-            arr[i][j] = pairs[j].vect[i];
+            arr[i][j] = pairs[j].vect[i]; /* The vectors are the columns. */
     }
 
     return matrix_from_arr(arr, n, k);

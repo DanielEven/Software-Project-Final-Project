@@ -47,7 +47,7 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects);
 /* Compare btween 2 Eigen_Pairs. */
 int cmp_Eigen_Pair(const void *a, const void *b);
 
-/* Creating a matrix from the first k eigenvectors.
+/* Creating a matrix from the first k eigenvectors as columns.
 n is the vector length.
 */
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n);
