@@ -24,8 +24,10 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
         /* Check convergence. */
         if (has_converged(A, A_tag))
+        {
+            free_matrix(A_tag);
             break;
-
+        }
         free_matrix(A);
         A = A_tag;
 
@@ -50,7 +52,6 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
     /* Freeing the matrices. */
     free_matrix(A); /* We already took the eigenvalues. */
-    free_matrix(A_tag);
     free(V->vals);
     free(V);
     /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
