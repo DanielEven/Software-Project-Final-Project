@@ -1,0 +1,36 @@
+name: Memory Management Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install valgrind
+      run: sudo apt-get install -y valgrind
+
+    - name: make wa
+      run: make test_wa_matrix
+    - name: valgrind wa
+      run: valgrind --error-exitcode=1 -s --leak-check=full ./out
+
+    - name: make ngl
+      run: make test_ngl_matrix
+    - name: valgrind ngl
+      run: valgrind --error-exitcode=1 -s --leak-check=full ./out
+
+    - name: make u
+      run: make test_u_matrix
+    - name: valgrind u
+      run: valgrind --error-exitcode=1 -s --leak-check=full ./out
+
+    - name: clean
+      run: make clean

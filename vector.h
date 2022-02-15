@@ -22,4 +22,7 @@ void normalize_vector_inp(double *vect, int n);
 /* A function to sum the elements of a vector */
 double sum_vector(double *vect, int n);
 
+/* Vector array freeing. */
+void free_vect_arr(double **v_lst, int num_of_vects);
+
 #endif

@@ -2,6 +2,7 @@
 #define U_MATRIX_H
 
 #include "matrix.h"
+#include "vector.h"
 #include <float.h>
 
 #define SIGN(x) (((x) >= 0) * 2 - 1)
@@ -9,7 +10,7 @@
 /* A function which calculates the eigenvectors and eigenvalues using the jacobi algorithm and Eigengap Heuristic.
 The function returns a matrix with the k eigenvectors with the lowest eigenvalues of the Normalized Graph Laplacian matrix.
 */
-Matrix *Create_k_eigenvectors_matrix(Matrix *NGL);
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL);
 
 /* A function to create the rotation matrix P from the matrix A. */
 Matrix *create_rotation_matrix(Matrix *A);
@@ -47,7 +48,7 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects);
 /* Compare btween 2 Eigen_Pairs. */
 int cmp_Eigen_Pair(const void *a, const void *b);
 
-/* Creating a matrix from the first k eigenvectors.
+/* Creating a matrix from the first k eigenvectors as columns.
 n is the vector length.
 */
 Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n);

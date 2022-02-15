@@ -3,9 +3,9 @@ import os
 
 bad = False
 
-os.system('./out > tests/testers/NGL_res.txt')
+os.system('./out > tests/testers/U_res.txt')
 
-with open("tests/expected_NGL.txt", 'r') as out, open("tests/testers/NGL_res.txt", 'r') as res:
+with open("tests/expected_U.txt", 'r') as out, open("tests/testers/U_res.txt", 'r') as res:
     nums_out_lines = out.read().split('\n')
     nums_res_lines = res.read().split('\n')
 
