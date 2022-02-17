@@ -4,7 +4,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 {
     /* Declaring variables. */
     int iter_count = 0, n = NGL->n, i, k;
-    double max_delta = DBL_MIN;
+    double max_delta = -DBL_MAX;
     Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
 
     Eigen_Pair *pairs_arr;
@@ -63,7 +63,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
         if (delta > max_delta) /* Bigger, not equal. */
         {
             max_delta = delta;
-            k = i;
+            k = i + 1;
         }
     }
 
@@ -111,7 +111,7 @@ Matrix *transform_A(Matrix *A, Matrix *P)
 Index get_pivot_index(Matrix *A)
 {
     int row, col;
-    double max_val = DBL_MIN;
+    double max_val = -DBL_MAX;
     Index res;
     for (row = 0; row < A->m; row++)
     {
