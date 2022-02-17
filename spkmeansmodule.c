@@ -5,6 +5,7 @@
 #include <Python.h>
 #include "matrix.h"
 #include "spkmeans.h"
+#include "vector.h"
 
 /* C Export - From the lecture. */
 
@@ -68,15 +69,15 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
         return NULL;
 
     n = PyList_Size(data_lst);
-    d = PyList_Size((PyList_GetItem(data_lst, 0)));
+    d = PyList_Size(PyList_GetItem(data_lst, 0));
     k = PyList_Size(cents_lst);
 
-    data = convert_PyObject_to_pointers(data_lst);
+    data = convert_PyObject_to_pointers(data_lst, n, d);
     if (data == NULL)
     {
         ERROR("An Error Has Occurred");
     }
-    cents = convert_PyObject_to_pointers(cents_lst);
+    cents = convert_PyObject_to_pointers(cents_lst, k, d);
     if (cents == NULL)
     {
         ERROR("An Error Has Occurred");
@@ -88,7 +89,7 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
     result = convert_pointers_to_PyObject(c_result, k, d);
 
     /* Free everything. */
-    free_vect_list_to_index(c_result, k);
+    free_vect_arr(c_result, k);
 
     to = Py_BuildValue("O", result); /*  Py_BuildValue(...) returns a PyObject*  */
     Py_DecRef(to);
