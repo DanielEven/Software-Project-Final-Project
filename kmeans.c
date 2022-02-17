@@ -1,3 +1,5 @@
+#include "kmeans.h"
+
 static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, double eps)
 {
     int i;
