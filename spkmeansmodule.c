@@ -3,9 +3,12 @@
 
 #define PY_SSIZE_T_CLEAN /* For all # variants of unit formats (s#, y#, etc.) use Py_ssize_t rather than int. */
 #include <Python.h>
+
 #include "matrix.h"
-#include "spkmeans.h"
 #include "vector.h"
+
+#include "spkmeans.h"
+#include "kmeans.h"
 
 /* C Export - From the lecture. */
 
