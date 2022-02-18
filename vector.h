@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <Python.h>
 
 /* Euclidean norm calculation. */
 double get_dist(double *v1, double *v2, int d);
@@ -24,5 +25,14 @@ double sum_vector(double *vect, int n);
 
 /* Vector array freeing. */
 void free_vect_arr(double **v_lst, int num_of_vects);
+
+/* Free the pointer arrays, from an arr of vect arr. */
+void free_arr_of_vect_arr(double ***v_lst, int num_of_vects);
+
+/* Make a PyObject from vector array and its sizes. */
+PyObject *convert_vect_arr_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub);
+
+/* Convert a PyObject to a vector array. */
+double **convert_PyObject_to_vect_arr(PyObject *lst, Py_ssize_t n, Py_ssize_t d);
 
 #endif

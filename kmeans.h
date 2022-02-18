@@ -1,5 +1,6 @@
 #include "Python.h"
 #include <float.h>
+#include "vector.h"
 
 /* Function declarations. */
 static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, double eps);

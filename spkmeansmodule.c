@@ -41,7 +41,7 @@ static PyObject *process_data_for_spectral_clustering_capi(PyObject *self, PyObj
     matrix_result = calculate_requested(data_matrix, k, goal);
 
     /* Convert the result to Python list. */
-    result = convert_pointers_to_PyObject(matrix_result->vals, matrix_result->m, matrix_result->n);
+    result = convert_vect_arr_to_PyObject(matrix_result->vals, matrix_result->m, matrix_result->n);
 
     /* Free everything. */
     free_matrix(data_matrix);
@@ -75,12 +75,12 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
     d = PyList_Size(PyList_GetItem(data_lst, 0));
     k = PyList_Size(cents_lst);
 
-    data = convert_PyObject_to_pointers(data_lst, n, d);
+    data = convert_PyObject_to_vect_arr(data_lst, n, d);
     if (data == NULL)
     {
         ERROR("An Error Has Occurred");
     }
-    cents = convert_PyObject_to_pointers(cents_lst, k, d);
+    cents = convert_PyObject_to_vect_arr(cents_lst, k, d);
     if (cents == NULL)
     {
         ERROR("An Error Has Occurred");
@@ -89,7 +89,7 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
     c_result = kmeans(data, cents, n, k, d, 300, 0);
 
     /* Convert the result to Python list. */
-    result = convert_pointers_to_PyObject(c_result, k, d);
+    result = convert_vect_arr_to_PyObject(c_result, k, d);
 
     /* Free everything. */
     free_vect_arr(c_result, k);
