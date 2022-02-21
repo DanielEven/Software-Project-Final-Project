@@ -1,6 +1,9 @@
 #include "kmeans.h"
 
-static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, double eps)
+/* Global variable to remember the amount of vectors assigned to each centroid. */
+int *num_mapped_vectors = NULL;
+
+double **kmeans(double **vect_arr, double **cents, Py_ssize_t n, Py_ssize_t k, Py_ssize_t d, Py_ssize_t max_iter, double eps)
 {
     int i;
     double **new_cents = NULL, ***mapping = NULL;
@@ -20,11 +23,11 @@ static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, d
     for (i = 0; i < max_iter; i++)
     {
         free_arr_of_vect_arr(mapping, k);
-        mapping = assign_vetors(vect_arr, cents);
+        mapping = assign_vetors(vect_arr, cents, n, k, d);
 
-        new_cents = calculate_new_cents(mapping, /*To free*/ vect_arr, /*To free*/ cents);
+        new_cents = calculate_new_cents(mapping, /*To free*/ vect_arr, /*To free*/ cents, n, k, d);
 
-        if (check_diff_cents_square(cents, new_cents, eps_sqrd))
+        if (check_diff_cents_square(cents, new_cents, eps_sqrd, k, d))
         {
             free_arr_of_vect_arr(mapping, k);
             free_vect_arr(vect_arr, n);
@@ -47,7 +50,7 @@ static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, d
 
 /* Returns an array of pointers to arrays of pointers to vectors.
 The last element of each inner list will be marked by a NULL. */
-static double ***assign_vetors(double **vect_arr, double **cents)
+double ***assign_vetors(double **vect_arr, double **cents, Py_ssize_t n, Py_ssize_t k, Py_ssize_t d)
 {
     int i, closest_cent;
     double ***mapping;
@@ -67,7 +70,7 @@ static double ***assign_vetors(double **vect_arr, double **cents)
 
     for (i = 0; i < n; i++)
     {
-        closest_cent = find_closest(vect_arr[i], cents);
+        closest_cent = find_closest(vect_arr[i], cents, k, d);
 
         /* We are allocating also enough memory for the NULL in the end, and for the new vector we are adding.*/
         if ((mapping[closest_cent] = realloc(mapping[closest_cent], (num_mapped_vectors[closest_cent] + 1) * sizeof(double *))) == NULL)
@@ -84,13 +87,13 @@ static double ***assign_vetors(double **vect_arr, double **cents)
 }
 
 /* Returns the index of the centroid closest to vector.*/
-static int find_closest(double *vect, double **cents)
+int find_closest(double *vect, double **cents, Py_ssize_t k, Py_ssize_t d)
 {
     double min_dist_sqr = DBL_MAX, dist;
     int indx = -1, i;
     for (i = 0; i < k; i++)
     {
-        if ((dist = get_dist_sqr(vect, cents[i])) < min_dist_sqr)
+        if ((dist = get_dist_sqr(vect, cents[i], d)) < min_dist_sqr)
         {
             min_dist_sqr = dist;
             indx = i;
@@ -99,7 +102,7 @@ static int find_closest(double *vect, double **cents)
     return indx;
 }
 
-static double get_dist_sqr(double *v1, double *v2)
+double get_dist_sqr(double *v1, double *v2, Py_ssize_t d)
 {
     double sum = 0;
     int i = 0;
@@ -111,7 +114,7 @@ static double get_dist_sqr(double *v1, double *v2)
     return sum;
 }
 
-double **calculate_new_cents(double ***mapping, /*In order to free if there is a problem*/ double **vect_arr, double **old_cents)
+double **calculate_new_cents(double ***mapping, /*In order to free if there is a problem*/ double **vect_arr, double **old_cents, Py_ssize_t n, Py_ssize_t k, Py_ssize_t d)
 {
     double **new_cents, **assigned, *res;
     int i;
@@ -135,8 +138,8 @@ double **calculate_new_cents(double ***mapping, /*In order to free if there is a
             ERROR("An Error Has Occurred");
         }
         assigned = mapping[i];
-        vector_sum(res, assigned, num_mapped_vectors[i]);
-        devide_vector(res, num_mapped_vectors[i]);
+        vector_sum(res, assigned, num_mapped_vectors[i], d);
+        devide_vector(res, num_mapped_vectors[i], d);
         new_cents[i] = res;
     }
 
@@ -144,7 +147,7 @@ double **calculate_new_cents(double ***mapping, /*In order to free if there is a
 }
 
 /* The result should be returned through the sum parameter.*/
-void vector_sum(double *sum, double **vectors, int len_lst)
+void vector_sum(double *sum, double **vectors, int len_lst, Py_ssize_t d)
 {
     int i, j;
 
@@ -156,7 +159,7 @@ void vector_sum(double *sum, double **vectors, int len_lst)
         }
     }
 }
-static void devide_vector(double *vect, double alpha)
+void devide_vector(double *vect, double alpha, Py_ssize_t d)
 {
     int i;
 
@@ -167,12 +170,12 @@ static void devide_vector(double *vect, double alpha)
 }
 
 /* Returns 1 (True) if all of the centroids haven't moved more then epsilon, else 0 (False). */
-static int check_diff_cents_square(double **cents, double **new_cents, double eps_sqrd)
+int check_diff_cents_square(double **cents, double **new_cents, double eps_sqrd, Py_ssize_t k, Py_ssize_t d)
 {
     int i;
     for (i = 0; i < k; i++)
     {
-        if (!(get_dist_sqr(cents[i], new_cents[i]) <= eps_sqrd))
+        if (!(get_dist_sqr(cents[i], new_cents[i], d) <= eps_sqrd))
         {
             return 0;
         }
