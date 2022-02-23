@@ -7,10 +7,15 @@ output:
 python:
 	python3 setup.py build_ext --inplace
 
+# Running the python code, using the library we have built.
+python_run:
+	python3 spkmeans.py 0 spk tests/blobs1.txt
+
 # Deleting the output files.
 clean:
 	rm -f out
 	rm -f tests/testers/*.txt
+	rm *.so
 
 ## Testing different c files:
 

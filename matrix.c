@@ -164,7 +164,7 @@ void mult_matrix_inp(Matrix *a, double scalar)
 
 Matrix *pow_diag_matrix(Matrix *a, double alpha)
 {
-    int i, j;
+    int i;
     Matrix *res;
 
     res = alloc_matrix(a->m, a->n);
@@ -176,7 +176,7 @@ Matrix *pow_diag_matrix(Matrix *a, double alpha)
 
 void pow_diag_matrix_inp(Matrix *a, double alpha)
 {
-    int i, j;
+    int i;
 
     for (i = 0; i < a->m; i++)
         a->vals[i][i] = pow(a->vals[i][i], alpha);

@@ -1,9 +1,9 @@
 #include "Umatrix.h"
 
-Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k)
 {
     /* Declaring variables. */
-    int iter_count = 0, n = NGL->n, i, k;
+    int iter_count = 0, n = NGL->n, i;
     double max_delta = -DBL_MAX;
     Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
 
@@ -56,14 +56,17 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
     free(V);
     /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
 
-    /* Eigengap Heuristic. */
-    for (i = 0; i < n / 2; i++)
+    if (k == 0)
     {
-        double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
-        if (delta > max_delta) /* Bigger, not equal. */
+        /* Eigengap Heuristic. */
+        for (i = 0; i < n / 2; i++)
         {
-            max_delta = delta;
-            k = i + 1;
+            double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
+            if (delta > max_delta) /* Bigger, not equal. */
+            {
+                max_delta = delta;
+                k = i + 1;
+            }
         }
     }
 

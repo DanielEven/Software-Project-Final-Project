@@ -78,12 +78,12 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
     data = convert_PyObject_to_vect_arr(data_lst, n, d);
     if (data == NULL)
     {
-        ERROR("An Error Has Occurred");
+        return NULL;
     }
     cents = convert_PyObject_to_vect_arr(cents_lst, k, d);
     if (cents == NULL)
     {
-        ERROR("An Error Has Occurred");
+        return NULL;
     }
 
     c_result = kmeans(data, cents, n, k, d, 300, 0);
@@ -132,7 +132,7 @@ static struct PyModuleDef moduledef = {
  * This should be the only non-static item defined in the module file
  */
 PyMODINIT_FUNC
-PyInit_mykmeanssp(void)
+PyInit_spkmeansmodule(void)
 {
     PyObject *m;
     m = PyModule_Create(&moduledef);

@@ -1,10 +1,27 @@
 #include "kmeans.h"
 
-static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, double eps)
+/* kmeans ERROR with memory freeing. */
+#define ERROR(msg)            \
+    printf("%s\n", msg);      \
+    free(num_mapped_vectors); \
+    exit(1);
+
+/* Global variables of the arguments and data shape. */
+Py_ssize_t k, n, d;
+/* Global variable to remember the amount of vectors assigned to each centroid. */
+int *num_mapped_vectors = NULL;
+
+double **kmeans(double **vect_arr, double **cents, Py_ssize_t n_local, Py_ssize_t k_local, Py_ssize_t d_local, Py_ssize_t max_iter, double eps)
 {
     int i;
     double **new_cents = NULL, ***mapping = NULL;
     const double eps_sqrd = eps * eps;
+
+    /* Assigning the global variables.*/
+    n = n_local;
+    k = k_local;
+    d = d_local;
+
     if (k >= n || k <= 0)
     {
         free_vect_arr(vect_arr, n);
@@ -47,7 +64,7 @@ static double **kmeans(double **vect_arr, double **cents, Py_ssize_t max_iter, d
 
 /* Returns an array of pointers to arrays of pointers to vectors.
 The last element of each inner list will be marked by a NULL. */
-static double ***assign_vetors(double **vect_arr, double **cents)
+double ***assign_vetors(double **vect_arr, double **cents)
 {
     int i, closest_cent;
     double ***mapping;
@@ -84,7 +101,7 @@ static double ***assign_vetors(double **vect_arr, double **cents)
 }
 
 /* Returns the index of the centroid closest to vector.*/
-static int find_closest(double *vect, double **cents)
+int find_closest(double *vect, double **cents)
 {
     double min_dist_sqr = DBL_MAX, dist;
     int indx = -1, i;
@@ -99,7 +116,7 @@ static int find_closest(double *vect, double **cents)
     return indx;
 }
 
-static double get_dist_sqr(double *v1, double *v2)
+double get_dist_sqr(double *v1, double *v2)
 {
     double sum = 0;
     int i = 0;
@@ -156,7 +173,7 @@ void vector_sum(double *sum, double **vectors, int len_lst)
         }
     }
 }
-static void devide_vector(double *vect, double alpha)
+void devide_vector(double *vect, double alpha)
 {
     int i;
 
@@ -167,7 +184,7 @@ static void devide_vector(double *vect, double alpha)
 }
 
 /* Returns 1 (True) if all of the centroids haven't moved more then epsilon, else 0 (False). */
-static int check_diff_cents_square(double **cents, double **new_cents, double eps_sqrd)
+int check_diff_cents_square(double **cents, double **new_cents, double eps_sqrd)
 {
     int i;
     for (i = 0; i < k; i++)

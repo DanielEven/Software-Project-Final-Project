@@ -2,7 +2,7 @@
 
 Matrix *get_row_normalized_matrix(Matrix *U)
 {
-    int i, sum;
+    int i;
     Matrix *T;
 
     T = alloc_matrix(U->m, U->n);
