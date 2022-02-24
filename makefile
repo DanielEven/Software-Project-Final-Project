@@ -15,7 +15,7 @@ python_run:
 clean:
 	rm -f out
 	rm -f tests/testers/*.txt
-	rm *.so
+	rm -f *.so
 
 ## Testing different c files:
 
