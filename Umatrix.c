@@ -229,6 +229,6 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int inc
     }
 
     to = matrix_from_arr(arr, n + !!include_vals, k);
-    free_vect_arr(arr, n);
+    free_vect_arr(arr, n + !!include_vals);
     return to;
 }
