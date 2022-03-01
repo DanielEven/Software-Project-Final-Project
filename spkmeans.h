@@ -1,10 +1,12 @@
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include "matrix.h"
 #include "vector.h"
 #include "WAmatrix.h"
 #include "NGLmatrix.h"
 #include "Umatrix.h"
 #include "Tmatrix.h"
-#include "kmeans.h"
 
 #include <string.h>
 

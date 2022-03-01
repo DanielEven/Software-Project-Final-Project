@@ -1,6 +1,6 @@
 #include "Umatrix.h"
 
-Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_print)
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 {
     /* Declaring variables. */
     int iter_count = 0, n = NGL->n, i;
@@ -48,7 +48,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_print)
 
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
-    if (for_print)
+    if (for_output_print)
     {
         U = create_matrix_from_k_Eigen_Pair(pairs_arr, n, n, 1);
     }

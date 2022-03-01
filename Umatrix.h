@@ -10,7 +10,7 @@
 /* A function which calculates the eigenvectors and eigenvalues using the jacobi algorithm and Eigengap Heuristic.
 The function returns a matrix with the k eigenvectors with the lowest eigenvalues of the Normalized Graph Laplacian matrix.
 */
-Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_print);
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print);
 
 /* A function to create the rotation matrix P from the matrix A. */
 Matrix *create_rotation_matrix(Matrix *A);
@@ -51,6 +51,6 @@ int cmp_Eigen_Pair(const void *a, const void *b);
 /* Creating a matrix from the first k eigenvectors as columns.
 n is the vector length.
 */
-Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int for_print);
+Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int for_output_print);
 
 #endif
