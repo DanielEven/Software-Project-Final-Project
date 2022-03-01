@@ -41,7 +41,7 @@ int main()
 
     NGL = create_NGL_matrix(WA, DD);
 
-    U = create_k_eigenvectors_matrix(NGL, 0);
+    U = create_k_eigenvectors_matrix(NGL, 0, 1);
 
     free_matrix(m);
     free_matrix(WA);

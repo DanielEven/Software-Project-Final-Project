@@ -17,7 +17,7 @@ Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
     if (!strcmp(goal, "ddg"))
     {
         free_matrix(WA);
-        /*pow_diag_matrix_inp(DD, -0.5); - this outputs DD^-1/2 like in the project_clarification.docx file*/
+        /* TODO pow_diag_matrix_inp(DD, -0.5); - this outputs DD^-1/2 like in the project_clarification.docx file*/
         return DD;
     }
 
@@ -34,6 +34,7 @@ Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
     {
         U = create_k_eigenvectors_matrix(NGL, (int)k, 1);
         free_matrix(NGL);
+        /* TODO in the project_clarification.docx file the eigenvectors are the rows so we might need to transpose*/
         return U;
     }
 

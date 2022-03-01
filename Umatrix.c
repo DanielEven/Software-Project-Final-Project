@@ -225,10 +225,10 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int inc
             /* TODO handle error.*/
         }
         for (j = 0; j < k; j++)
-            arr[i][j] = pairs[j].vect[i]; /* The vectors are the columns. */
+            arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the columns. */
     }
 
-    to = matrix_from_arr(arr, n, k);
+    to = matrix_from_arr(arr, n + !!include_vals, k);
     free_vect_arr(arr, n);
     return to;
 }
