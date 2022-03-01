@@ -41,14 +41,14 @@ def kmeans_pp(data, k):
 
     # Initializing the data.
     first_index = np.random.choice(N)
-    cents = [data[first_index, 1:]]
+    cents = [data[first_index, :]]
     cents_indexes = [first_index]
 
     i = 1
     while i < k:
 
         # Calculating the minimal distance for each vector.
-        D_list = [min([np.dot(data[l, 1:] - cents[j], data[l, 1:] - cents[j])
+        D_list = [min([np.dot(data[l, :] - cents[j], data[l, :] - cents[j])
                       for j in range(i)]) for l in range(N)]
 
         # Calculating the probabilities for selection.
@@ -62,7 +62,7 @@ def kmeans_pp(data, k):
 
         # Adding the index & vector to the corresponding lists.
         cents_indexes.append(chosen_index)
-        cents.append(data[chosen_index, 1:])
+        cents.append(data[chosen_index, :])
 
     return pd.DataFrame(cents), cents_indexes
 
@@ -124,10 +124,10 @@ def main():
         if goal == "spk":
             # Calculating initial centroids
             init_cents, chosen_indexes = kmeans_pp(
-                np.array(processed_data), len(processed_data))
+                np.array(processed_data), len(processed_data[0]))
 
             # Calculate the centroids.
-            result = kmeans(data.values.tolist(),
+            result = kmeans(processed_data,
                             init_cents.values.tolist())
 
             # Moving the returned data back to a DataFrame.
@@ -135,6 +135,7 @@ def main():
 
         else:
             result_df = pd.DataFrame(processed_data)
+            chosen_indexes = None
 
         # Writing the calculated centroids.
         print_output(result_df, chosen_indexes)

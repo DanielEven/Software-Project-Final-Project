@@ -4,6 +4,7 @@
 #include "NGLmatrix.h"
 #include "Umatrix.h"
 #include "Tmatrix.h"
+#include "kmeans.h"
 
 #include <string.h>
 

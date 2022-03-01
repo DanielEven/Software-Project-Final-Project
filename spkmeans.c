@@ -5,7 +5,7 @@
 
 Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
 {
-    Matrix *WA, *DD, *NGL;
+    Matrix *WA, *DD, *NGL, *U, *T;
 
     WA = create_WA_matrix(data_matrix);
     if (!strcmp(goal, "wam"))
@@ -17,6 +17,7 @@ Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
     if (!strcmp(goal, "ddg"))
     {
         free_matrix(WA);
+        /*pow_diag_matrix_inp(DD, -0.5); - this outputs DD^-1/2 like in the project_clarification.docx file*/
         return DD;
     }
 
@@ -27,6 +28,22 @@ Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
     if (!strcmp(goal, "lnorm"))
     {
         return NGL;
+    }
+
+    if (!strcmp(goal, "jacobi"))
+    {
+        U = create_k_eigenvectors_matrix(NGL, (int)k, 1);
+        free_matrix(NGL);
+        return U;
+    }
+
+    if (!strcmp(goal, "spk"))
+    {
+        U = create_k_eigenvectors_matrix(NGL, (int)k, 0);
+        free_matrix(NGL);
+        T = get_row_normalized_matrix(U);
+        free_matrix(U);
+        return T;
     }
 
     return NULL;

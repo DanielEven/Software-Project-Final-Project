@@ -38,14 +38,14 @@ void divide_vector_inp(double *vect, double alpha, int n)
 
 double *normalize_vector(double *vect, int n)
 {
-    int sum;
+    double sum;
     sum = sum_vector(vect, n);
     return divide_vector(vect, sum, n);
 }
 
 void normalize_vector_inp(double *vect, int n)
 {
-    int sum;
+    double sum;
     sum = sum_vector(vect, n);
     divide_vector_inp(vect, sum, n);
 }
@@ -59,7 +59,7 @@ double sum_vector(double *vect, int n)
     return sum;
 }
 
-void free_vect_arr(double **v_lst, int num_of_vects)
+void free_vect_arr(double **v_lst, Py_ssize_t num_of_vects)
 {
     int i;
     if (v_lst == NULL)
@@ -71,7 +71,7 @@ void free_vect_arr(double **v_lst, int num_of_vects)
     free(v_lst);
 }
 
-void free_arr_of_vect_arr(double ***ptr_list, int num_of_vects)
+void free_arr_of_vect_arr(double ***ptr_list, Py_ssize_t num_of_vects)
 {
     int k;
     if (ptr_list == NULL)

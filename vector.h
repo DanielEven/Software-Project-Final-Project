@@ -2,9 +2,11 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include <math.h>
 #include <stdlib.h>
-#include <Python.h>
 
 /* Euclidean norm calculation. */
 double get_dist(double *v1, double *v2, int d);
@@ -24,10 +26,10 @@ void normalize_vector_inp(double *vect, int n);
 double sum_vector(double *vect, int n);
 
 /* Vector array freeing. */
-void free_vect_arr(double **v_lst, int num_of_vects);
+void free_vect_arr(double **v_lst, Py_ssize_t num_of_vects);
 
 /* Free the pointer arrays, from an arr of vect arr. */
-void free_arr_of_vect_arr(double ***v_lst, int num_of_vects);
+void free_arr_of_vect_arr(double ***v_lst, Py_ssize_t num_of_vects);
 
 /* Make a PyObject from vector array and its sizes. */
 PyObject *convert_vect_arr_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub);

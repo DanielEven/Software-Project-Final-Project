@@ -1,11 +1,13 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
 
-#include <Python.h>
 
 /* Defining the matrix struct. */
 typedef struct Matrix

@@ -9,6 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
+            "args": ["0", "spk", "tests\\blobs1.txt"],
             "console": "integratedTerminal"
         },
         {

@@ -65,7 +65,7 @@ Matrix *matrix_from_PyList(PyObject *lst)
 
     m = PyList_Size(lst);
     n = PyList_Size(PyList_GET_ITEM(lst, 0));
-    to = alloc_matrix(m, n);
+    to = alloc_matrix((int)m, (int)n);
 
     for (i = 0; i < m; i++)
     {
