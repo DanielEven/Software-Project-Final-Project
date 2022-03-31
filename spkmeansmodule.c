@@ -37,8 +37,12 @@ static PyObject *process_data_for_spectral_clustering_capi(PyObject *self, PyObj
         return NULL;
 
     data_matrix = matrix_from_PyList(data_lst);
+    if (data_matrix == NULL)
+        return NULL;
 
     matrix_result = calculate_requested(data_matrix, k, goal);
+    if (matrix_result == NULL)
+        return NULL;
 
     /* Convert the result to Python list. */
     result = convert_vect_arr_to_PyObject(matrix_result->vals, matrix_result->m, matrix_result->n);

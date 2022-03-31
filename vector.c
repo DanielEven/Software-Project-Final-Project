@@ -18,7 +18,7 @@ double *divide_vector(double *vect, double alpha, int n)
     double *res = calloc(n, sizeof(double));
     if (!res)
     {
-        /* TODO handle error */
+       return NULL;
     }
     for (i = 0; i < n; i++)
     {
