@@ -36,11 +36,13 @@ int main(int argc, char *argv[])
     }
 
     result = calculate_requested(input_mat, 0, goal);
+    free_matrix(input_mat);
     if (result == NULL)
     {
         ERROR("Invalid Input!");
     }
 
+    free_matrix(result);
     write_output(result);
     return 0;
 }
