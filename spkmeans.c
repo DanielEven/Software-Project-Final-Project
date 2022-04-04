@@ -3,6 +3,104 @@
 
 #include "spkmeans.h"
 
+int main(int argc, char *argv[])
+{
+    double **centroids;
+    char *goal;
+    FILE *input_file;
+    Matrix *input_mat, *result;
+    if (argc != 3)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    goal = argv[1];
+    if (strcmp(goal, "wam") && strcmp(goal, "ddg") && strcmp(goal, "lnorm") && strcmp(goal, "jacobi"))
+    {
+        printf("ERR***\t%s\n\n", goal);
+        ERROR("Invalid Input!");
+    }
+
+    input_file = fopen(argv[2], "r");
+
+    input_mat = read_input(input_file);
+
+    fclose(input_file);
+
+    if (input_mat == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    result = calculate_requested(input_mat, 0, goal);
+    if (result == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    write_output(result);
+    return 0;
+}
+
+/* The function also counts the vector amount - n, and the vector's dimension - d.*/
+Matrix *read_input(FILE *input_file)
+{
+    Matrix *to;
+    double num;
+    int i, j, n, d;
+
+    n = get_n(input_file);
+    d = get_d(input_file);
+
+    to = alloc_matrix(n, d);
+    if (to == NULL)
+    {
+        return NULL;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < d; j++)
+        {
+            fscanf(input_file, "%lf,", &num);
+            to->vals[i][j] = num;
+        }
+    }
+
+    return to;
+}
+
+int get_n(FILE *input_file)
+{
+    char ch;
+    int n = 0;
+    while ((ch = fgetc(input_file)) != EOF)
+    {
+        if (ch == '\n')
+            n++;
+    }
+    rewind(input_file);
+    return n;
+}
+
+int get_d(FILE *input_file)
+{
+    char ch;
+    int d = 1;
+    while ((ch = fgetc(input_file)) != '\n')
+    {
+        if (ch == ',')
+            d++;
+    }
+    rewind(input_file);
+    return d;
+}
+
+void write_output(Matrix *result)
+{
+    // LIAM
+}
+
 Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
 {
     Matrix *WA, *DD, *NGL, *U, *T;
