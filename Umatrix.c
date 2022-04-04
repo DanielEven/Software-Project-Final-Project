@@ -200,7 +200,7 @@ double get_c(double t)
 
 int has_converged(Matrix *A, Matrix *A_tag)
 {
-    const double eps = 1.0 * pow(10, -15);
+    const double eps = 1.0 * pow(10, -5);
     return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
 
