@@ -1,5 +1,6 @@
 #include <float.h>
 #include "vector.h"
+#include <stdio.h>
 
 /* Function declarations. */
 double **kmeans(double **vect_arr, double **cents, long int n, long int k, long int d, long int max_iter, double eps);

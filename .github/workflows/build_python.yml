@@ -1,0 +1,19 @@
+name: Build Python Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make python
+      run: make python
+    - name: make clean
+      run: make clean

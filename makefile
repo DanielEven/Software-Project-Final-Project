@@ -16,6 +16,7 @@ clean:
 	rm -f out
 	rm -f tests/testers/*.txt
 	rm -f *.so
+	rm -rf build/
 
 ## Testing different c files:
 
