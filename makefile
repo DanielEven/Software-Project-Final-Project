@@ -1,7 +1,8 @@
 
 # Building the c code not from the python setup.py file.
 output:
-	gcc -I/usr/include/python3.8 *.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+	/bin/sh comp.sh
+	./spkmeans lnorm input_1.txt
 
 # Building the c code as a library, using the setup.py file.
 python:
@@ -13,7 +14,7 @@ python_run:
 
 # Deleting the output files.
 clean:
-	rm -f out
+	rm -f out spkmeans
 	rm -f tests/testers/*.txt
 	rm -f *.so
 	rm -rf build/

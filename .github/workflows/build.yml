@@ -1,4 +1,4 @@
-name: Build Test
+name: Build & Run C Test
 
 on:
   push:
@@ -13,9 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: create main
-      run: echo "int main(){return 0;}" >> empty_main.c
     - name: make
       run: make
     - name: make clean
-      run: make clean && rm empty_main.c
+      run: make clean
