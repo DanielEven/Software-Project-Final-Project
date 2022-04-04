@@ -23,13 +23,17 @@ clean:
 
 # Matrix
 test_matrix: tests/matrix_tst.c
-	gcc -I/usr/include/python3.8 *.c tests/matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+	gcc kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/matrix_tst.c \
+     -lm -g -o out
 # Weighted Adjacency Matrix
 test_wa_matrix: tests/WA_matrix_tst.c
-	gcc -I/usr/include/python3.8 *.c tests/WA_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+	gcc kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/WA_matrix_tst.c \
+     -lm -g -o out
 # Normalized Graph Laplacian Matrix
 test_ngl_matrix: tests/NGL_matrix_tst.c
-	gcc -I/usr/include/python3.8 *.c tests/NGL_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8
+	gcc kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/NGL_matrix_tst.c \
+     -lm -g -o out
 # Eigenvectors and Eigenvalues
 test_u_matrix: tests/U_matrix_tst.c
-	gcc -I/usr/include/python3.8 *.c tests/U_matrix_tst.c -lm -g -o out -L/usr/lib/x86_64-linux-gnu/libpython3.8.so -lpython3.8 -DTESTING_JACOBI
+	gcc kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/U_matrix_tst.c \
+     -lm -g -o out -DTESTING_JACOBI

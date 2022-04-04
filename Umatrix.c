@@ -57,6 +57,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     } while ((++iter_count) < 100);
 
 #ifdef TESTING_JACOBI /* TODO For debugging only, remember to delete.*/
+#include <stdio.h>
     int j;
     for (i = 0; i < A->m; i++)
         printf("%0.3f ", A->vals[i][i]);
