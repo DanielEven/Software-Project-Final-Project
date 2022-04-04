@@ -1,9 +1,8 @@
-#include "Python.h"
 #include <float.h>
 #include "vector.h"
 
 /* Function declarations. */
-double **kmeans(double **vect_arr, double **cents, Py_ssize_t n, Py_ssize_t k, Py_ssize_t d, Py_ssize_t max_iter, double eps);
+double **kmeans(double **vect_arr, double **cents, long int n, long int k, long int d, long int max_iter, double eps);
 double ***assign_vetors(double **vect_arr, double **cents);
 int find_closest(double *vect, double **cents);
 double get_dist_sqr(double *v1, double *v2);

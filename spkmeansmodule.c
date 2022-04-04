@@ -10,6 +10,15 @@
 #include "spkmeans.h"
 #include "kmeans.h"
 
+/* A helper method to create matrix from python list. */
+Matrix *matrix_from_PyList(PyObject *lst);
+
+/* Make a PyObject from vector array and its sizes. */
+PyObject *convert_vect_arr_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub);
+
+/* Convert a PyObject to a vector array. */
+double **convert_PyObject_to_vect_arr(PyObject *lst, Py_ssize_t n, Py_ssize_t d);
+
 /* C Export - From the lecture. */
 
 /*
@@ -145,4 +154,66 @@ PyInit_spkmeansmodule(void)
         return NULL;
     }
     return m;
+}
+
+Matrix *matrix_from_PyList(PyObject *lst)
+{
+    Matrix *to;
+    Py_ssize_t i, j, m, n;
+
+    m = PyList_Size(lst);
+    n = PyList_Size(PyList_GET_ITEM(lst, 0));
+    to = alloc_matrix((int)m, (int)n);
+    if (to == NULL)
+        return to;
+
+    for (i = 0; i < m; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            to->vals[i][j] = PyFloat_AsDouble(PyList_GetItem(PyList_GetItem(lst, i), j));
+        }
+    }
+    return to;
+}
+
+PyObject *convert_vect_arr_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub)
+{
+    int i, j;
+    PyObject *to = PyList_New(size);
+    PyObject *sub;
+
+    for (i = 0; i < size; i++)
+    {
+        sub = PyList_New(size_sub);
+        for (j = 0; j < size_sub; j++)
+            PyList_SetItem(sub, j, PyFloat_FromDouble(ptr[i][j]));
+
+        PyList_SetItem(to, i, sub);
+    }
+    return to;
+}
+
+double **convert_PyObject_to_vect_arr(PyObject *lst, Py_ssize_t n, Py_ssize_t d)
+{
+    double **ptrs_list, *sub;
+    Py_ssize_t i, j;
+    if ((ptrs_list = calloc(sizeof(double *), n)) == NULL)
+    {
+        return NULL;
+    }
+    for (i = 0; i < n; i++)
+    {
+        if ((sub = calloc(sizeof(double *), d)) == NULL)
+        {
+            free_vect_arr(ptrs_list, i);
+            return NULL;
+        }
+        for (j = 0; j < d; j++)
+        {
+            sub[j] = PyFloat_AsDouble(PyList_GetItem(PyList_GetItem(lst, i), j));
+        }
+        ptrs_list[i] = sub;
+    }
+    return ptrs_list;
 }

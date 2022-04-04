@@ -7,11 +7,11 @@
     exit(1);
 
 /* Global variables of the arguments and data shape. */
-Py_ssize_t k, n, d;
+long int k, n, d;
 /* Global variable to remember the amount of vectors assigned to each centroid. */
 int *num_mapped_vectors = NULL;
 
-double **kmeans(double **vect_arr, double **cents, Py_ssize_t n_local, Py_ssize_t k_local, Py_ssize_t d_local, Py_ssize_t max_iter, double eps)
+double **kmeans(double **vect_arr, double **cents, long int n_local, long int k_local, long int d_local, long int max_iter, double eps)
 {
     int i;
     double **new_cents = NULL, ***mapping = NULL;

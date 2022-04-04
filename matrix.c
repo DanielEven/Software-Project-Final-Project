@@ -67,26 +67,6 @@ Matrix *matrix_from_arr(double **arr, int m, int n)
             to->vals[i][j] = arr[i][j];
     return to;
 }
-Matrix *matrix_from_PyList(PyObject *lst)
-{
-    Matrix *to;
-    Py_ssize_t i, j, m, n;
-
-    m = PyList_Size(lst);
-    n = PyList_Size(PyList_GET_ITEM(lst, 0));
-    to = alloc_matrix((int)m, (int)n);
-    if (to == NULL)
-        return to;
-
-    for (i = 0; i < m; i++)
-    {
-        for (j = 0; j < n; j++)
-        {
-            to->vals[i][j] = PyFloat_AsDouble(PyList_GetItem(PyList_GetItem(lst, i), j));
-        }
-    }
-    return to;
-}
 
 Matrix *add_matrix(Matrix *a, Matrix *b)
 {

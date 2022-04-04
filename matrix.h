@@ -1,9 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
@@ -24,7 +21,6 @@ void free_matrix(Matrix *a);
 /* Creating a matrix.*/
 Matrix *dup_matrix(Matrix *a);
 Matrix *matrix_from_arr(double **arr, int m, int n);
-Matrix *matrix_from_PyList(PyObject *lst);
 
 /* Operations over matrices.
 Every function has 2 versions:

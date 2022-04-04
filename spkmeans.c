@@ -3,7 +3,7 @@
 
 #include "spkmeans.h"
 
-Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t k, const char *goal)
+Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
 {
     Matrix *WA, *DD, *NGL, *U, *T;
 
