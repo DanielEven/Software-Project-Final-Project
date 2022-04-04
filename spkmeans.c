@@ -17,11 +17,14 @@ int main(int argc, char *argv[])
     goal = argv[1];
     if (strcmp(goal, "wam") && strcmp(goal, "ddg") && strcmp(goal, "lnorm") && strcmp(goal, "jacobi"))
     {
-        printf("ERR***\t%s\n\n", goal);
         ERROR("Invalid Input!");
     }
 
     input_file = fopen(argv[2], "r");
+    if (input_file == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
 
     input_mat = read_input(input_file);
 

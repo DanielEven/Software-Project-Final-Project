@@ -9,7 +9,11 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["0", "spk", "tests\\blobs1.txt"],
+            "args": [
+                "0",
+                "spk",
+                "tests\\blobs1.txt"
+            ],
             "console": "integratedTerminal"
         },
         {
@@ -17,7 +21,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
+            "args": [
+                "lnorm",
+                "tests/blobs1.txt"
+            ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

@@ -2,7 +2,7 @@
 # Building the c code not from the python setup.py file.
 output:
 	/bin/sh comp.sh
-	./spkmeans lnorm input_1.txt
+	./spkmeans lnorm tests/blobs1.txt
 
 # Building the c code as a library, using the setup.py file.
 python:
