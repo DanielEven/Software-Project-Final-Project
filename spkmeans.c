@@ -1,3 +1,6 @@
+#ifndef SPKMEANS_H
+#define SPKMEANS_H
+
 /* C Interface of the code.*/
 /* Has a function to manage the calls to all of the C files. */
 
@@ -154,3 +157,5 @@ Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
 
     return NULL;
 }
+
+#endif
