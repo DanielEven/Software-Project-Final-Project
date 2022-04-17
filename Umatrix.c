@@ -5,6 +5,7 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     /* Declaring variables. */
     int iter_count = 0, n = NGL->n, i;
     double max_delta = -DBL_MAX;
+    Eigen_Pair *pairs_arr;
     Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
     if ((A == NULL) || (V == NULL))
     {
@@ -12,8 +13,6 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
         free_matrix(V);
         return NULL;
     }
-
-    Eigen_Pair *pairs_arr;
 
     /* Jacobi algorithm. */
     do
@@ -118,14 +117,14 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 
 Matrix *create_rotation_matrix(Matrix *A)
 {
-    Matrix *P = get_identity(A->m);
-    if (P == NULL)
-        return P;
     Index ind = get_pivot_index(A);
     double theta = get_theta(A, ind);
     double t = get_t(theta);
     double c = get_c(t);
     double s = t * c;
+    Matrix *P = get_identity(A->m);
+    if (P == NULL)
+        return P;
 
     P->vals[ind.i][ind.j] = s;
     P->vals[ind.j][ind.i] = -s;

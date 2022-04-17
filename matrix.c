@@ -34,7 +34,7 @@ void free_matrix(Matrix *a)
     int i;
     if (a == NULL)
         return;
-    
+
     for (i = 0; i < a->m; i++)
         free(a->vals[i]);
     free(a->vals);
@@ -237,4 +237,25 @@ double off_sqr_of_sym_matrix(Matrix *A)
             sum += 2 * pow(A->vals[i][j], 2);
     }
     return sum;
+}
+
+void print_mat(Matrix *a)
+{
+    int i;
+    for (i = 0; i < a->m; i++)
+    {
+        print_row(a->vals[i], a->n);
+        printf("\n");
+    }
+}
+
+void print_row(double *row, int n)
+{
+    int j;
+    for (j = 0; j < n; j++)
+    {
+        printf("%.4f", row[j]);
+        if (j != (n - 1))
+            printf(",");
+    }
 }

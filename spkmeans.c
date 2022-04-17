@@ -8,7 +8,6 @@
 
 int main(int argc, char *argv[])
 {
-    double **centroids;
     char *goal;
     FILE *input_file;
     Matrix *input_mat, *result;
@@ -45,8 +44,8 @@ int main(int argc, char *argv[])
         ERROR("Invalid Input!");
     }
 
+    print_mat(result);
     free_matrix(result);
-    write_output(result);
     return 0;
 }
 
@@ -81,11 +80,16 @@ Matrix *read_input(FILE *input_file)
 int get_n(FILE *input_file)
 {
     char ch;
-    int n = 0;
+    int n = 1, last_n = 0;
     while ((ch = fgetc(input_file)) != EOF)
     {
+        last_n = n;
         if (ch == '\n')
             n++;
+    }
+    if (n != last_n)
+    {
+        n--;
     }
     rewind(input_file);
     return n;
@@ -102,11 +106,6 @@ int get_d(FILE *input_file)
     }
     rewind(input_file);
     return d;
-}
-
-void write_output(Matrix *result)
-{
-    // LIAM
 }
 
 Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
