@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         ERROR("Invalid Input!");
     }
 
-    print_mat(result);
+    print_matrix(result);
     free_matrix(result);
     return 0;
 }

@@ -239,7 +239,7 @@ double off_sqr_of_sym_matrix(Matrix *A)
     return sum;
 }
 
-void print_mat(Matrix *a)
+void print_matrix(Matrix *a)
 {
     int i;
     for (i = 0; i < a->m; i++)

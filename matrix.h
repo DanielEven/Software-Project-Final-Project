@@ -55,7 +55,7 @@ int is_diag(Matrix *a);
 double off_sqr_of_sym_matrix(Matrix *A);
 
 /* Functions for printing matrixes */
-void print_mat(Matrix *a);
+void print_matrix(Matrix *a);
 void print_row(double *row, int n);
 
 /* Size checking macros.*/
