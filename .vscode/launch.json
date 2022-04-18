@@ -12,7 +12,7 @@
             "args": [
                 "0",
                 "spk",
-                "tests\\blobs1.txt"
+                "yuval_testers/testfiles/spk_0.txt"
             ],
             "console": "integratedTerminal"
         },
@@ -22,8 +22,8 @@
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
-                "lnorm",
-                "tests/blobs1.txt"
+                "jacobi",
+                "yuval_testers/testfiles/jacobi_5.txt"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

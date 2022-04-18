@@ -51,10 +51,10 @@ Matrix *get_identity(int n);
 /* A function to check if a matrix is diagonal. */
 int is_diag(Matrix *a);
 
-/* A function to calculate the squared off of a matrix, optimized for symmetric matrixes */
+/* A function to calculate the squared off of a matrix, optimized for symmetric matrices */
 double off_sqr_of_sym_matrix(Matrix *A);
 
-/* Functions for printing matrixes */
+/* Functions for printing matrices */
 void print_matrix(Matrix *a);
 void print_row(double *row, int n);
 

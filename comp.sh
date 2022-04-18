@@ -1,3 +1,3 @@
 # The compilation script.
-gcc kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c \
-     -lm -g -o spkmeans
+gcc -ansi -Wall -Wextra -Werror -pedantic-errors kmeans.c matrix.c NGLmatrix.c spkmeans.c Tmatrix.c Umatrix.c vector.c WAmatrix.c \
+     -lm -o spkmeans

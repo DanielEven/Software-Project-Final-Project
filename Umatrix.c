@@ -27,7 +27,8 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
             return NULL;
         }
         A_tag = transform_A(A, P);
-        if (A_tag == NULL){
+        if (A_tag == NULL)
+        {
             free_matrix(A);
             free_matrix(P);
             free_matrix(V);
@@ -38,7 +39,8 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
         free_matrix(V);
         free_matrix(P);
         V = tmp;
-        if (V == NULL){
+        if (V == NULL)
+        {
             free_matrix(A);
             free_matrix(A_tag);
             return V;
@@ -55,23 +57,10 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 
     } while ((++iter_count) < 100);
 
-#ifdef TESTING_JACOBI /* TODO For debugging only, remember to delete.*/
-#include <stdio.h>
-    int j;
-    for (i = 0; i < A->m; i++)
-        printf("%0.3f ", A->vals[i][i]);
-    printf("\n\n");
-    for (i = 0; i < V->m; i++)
-    {
-        for (j = 0; j < V->n; j++)
-            printf("%.3f ", V->vals[i][j]);
-        printf("\n");
-    }
-#endif
-
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
-    if (pairs_arr == NULL){
+    if (pairs_arr == NULL)
+    {
         free_matrix(A);
         free_matrix(V);
         return NULL;
@@ -103,8 +92,11 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     }
 
     /* Freeing variables. */
-    for (i = 0; i < n; i++)
-        free(pairs_arr[i].vect);
+    if (!for_output_print)
+    {
+        for (i = 0; i < n; i++)
+            free(pairs_arr[i].vect);
+    }
     free(pairs_arr);
 
     /* Freeing the matrices. */
@@ -259,16 +251,22 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int inc
 
     for (i = 0 + !!include_vals; i < n + !!include_vals; i++)
     {
-        arr[i] = calloc(k, sizeof(double));
-        if (!(arr[i]))
+        if (include_vals)
+            arr[i] = pairs[i - !!include_vals].vect; /* The vectors are the rows. */
+        else
         {
-            free_vect_arr(arr, i - 1);
+            arr[i] = calloc(k, sizeof(double));
+            if (!(arr[i]))
+            {
+                free_vect_arr(arr, i - 1);
+                return NULL;
+            }
+            for (j = 0; j < k; j++)
+                arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the rows. */
         }
-        for (j = 0; j < k; j++)
-            arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the columns. */
     }
-
     to = matrix_from_arr(arr, n + !!include_vals, k);
     free_vect_arr(arr, n + !!include_vals);
+
     return to;
 }
