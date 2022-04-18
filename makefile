@@ -33,7 +33,3 @@ test_wa_matrix: tests/WA_matrix_tst.c
 test_ngl_matrix: tests/NGL_matrix_tst.c
 	gcc kmeans.c matrix.c NGLmatrix.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/NGL_matrix_tst.c \
      -lm -g -o out
-# Eigenvectors and Eigenvalues
-test_u_matrix: tests/U_matrix_tst.c
-	gcc kmeans.c matrix.c NGLmatrix.c Tmatrix.c Umatrix.c vector.c WAmatrix.c tests/U_matrix_tst.c \
-     -lm -g -o out -DTESTING_JACOBI
