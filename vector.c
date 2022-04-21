@@ -18,7 +18,7 @@ double *divide_vector(double *vect, double alpha, int n)
     double *res = calloc(n, sizeof(double));
     if (!res)
     {
-       return NULL;
+        return NULL;
     }
     for (i = 0; i < n; i++)
     {
@@ -39,23 +39,24 @@ void divide_vector_inp(double *vect, double alpha, int n)
 double *normalize_vector(double *vect, int n)
 {
     double sum;
-    sum = sum_vector(vect, n);
-    return divide_vector(vect, sum, n);
+    sum = sum_vector_sqr(vect, n);
+    return divide_vector(vect, (sum == 0 ? 1 : pow(sum, 0.5)), n); /* Taking care of the case when sum == 0. */
 }
 
 void normalize_vector_inp(double *vect, int n)
 {
     double sum;
-    sum = sum_vector(vect, n);
-    divide_vector_inp(vect, sum, n);
+    sum = sum_vector_sqr(vect, n);
+    if (sum != 0)
+        divide_vector_inp(vect, pow(sum, 0.5), n);
 }
 
-double sum_vector(double *vect, int n)
+double sum_vector_sqr(double *vect, int n)
 {
     int i;
     double sum = 0;
     for (i = 0; i < n; i++)
-        sum += vect[i];
+        sum += pow(vect[i], 2);
     return sum;
 }
 

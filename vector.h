@@ -19,8 +19,8 @@ void divide_vector_inp(double *vect, double alpha, int n);
 double *normalize_vector(double *vect, int n);
 void normalize_vector_inp(double *vect, int n);
 
-/* A function to sum the elements of a vector */
-double sum_vector(double *vect, int n);
+/* A function to square sum the elements of a vector */
+double sum_vector_sqr(double *vect, int n);
 
 /* Vector array freeing. */
 void free_vect_arr(double **v_lst, long int num_of_vects);

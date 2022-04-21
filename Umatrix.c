@@ -262,7 +262,7 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int inc
                 return NULL;
             }
             for (j = 0; j < k; j++)
-                arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the rows. */
+                arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the columns. */
         }
     }
     to = matrix_from_arr(arr, n + !!include_vals, k);
