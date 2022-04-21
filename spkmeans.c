@@ -1,20 +1,162 @@
+#ifndef SPKMEANS_H
+#define SPKMEANS_H
+
 /* C Interface of the code.*/
 /* Has a function to manage the calls to all of the C files. */
+
 #include "spkmeans.h"
 
-PyObject *convert_pointers_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub)
+int main(int argc, char *argv[])
 {
-    int i, j;
-    PyObject *to = PyList_New(size);
-    PyObject *sub;
-
-    for (i = 0; i < size; i++)
+    char *goal;
+    FILE *input_file;
+    Matrix *input_mat, *result;
+    if (argc != 3)
     {
-        sub = PyList_New(size_sub);
-        for (j = 0; j < size_sub; j++)
-            PyList_SetItem(sub, j, PyFloat_FromDouble(ptr[i][j]));
-
-        PyList_SetItem(to, i, sub);
+        ERROR("Invalid Input!");
     }
+
+    goal = argv[1];
+    if (strcmp(goal, "wam") && strcmp(goal, "ddg") && strcmp(goal, "lnorm") && strcmp(goal, "jacobi"))
+    {
+        ERROR("Invalid Input!");
+    }
+
+    input_file = fopen(argv[2], "r");
+    if (input_file == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    input_mat = read_input(input_file);
+
+    fclose(input_file);
+
+    if (input_mat == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    result = calculate_requested(input_mat, 0, goal);
+    free_matrix(input_mat);
+    if (result == NULL)
+    {
+        ERROR("Invalid Input!");
+    }
+
+    print_matrix(result);
+    free_matrix(result);
+    return 0;
+}
+
+/* The function also counts the vector amount - n, and the vector's dimension - d.*/
+Matrix *read_input(FILE *input_file)
+{
+    Matrix *to;
+    double num;
+    int i, j, n, d;
+
+    n = get_n(input_file);
+    d = get_d(input_file);
+
+    to = alloc_matrix(n, d);
+    if (to == NULL)
+    {
+        return NULL;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < d; j++)
+        {
+            fscanf(input_file, "%lf,", &num);
+            to->vals[i][j] = num;
+        }
+    }
+
     return to;
 }
+
+int get_n(FILE *input_file)
+{
+    char ch;
+    int n = 1, last_n = 0;
+    while ((ch = fgetc(input_file)) != EOF)
+    {
+        last_n = n;
+        if (ch == '\n')
+            n++;
+    }
+    if (n != last_n)
+    {
+        n--;
+    }
+    rewind(input_file);
+    return n;
+}
+
+int get_d(FILE *input_file)
+{
+    char ch;
+    int d = 1;
+    while ((ch = fgetc(input_file)) != '\n')
+    {
+        if (ch == ',')
+            d++;
+    }
+    rewind(input_file);
+    return d;
+}
+
+Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
+{
+    Matrix *WA, *DD, *NGL, *U, *T;
+
+    if (!strcmp(goal, "jacobi"))
+    {
+        U = create_k_eigenvectors_matrix(data_matrix, (int)k, 1);
+        /* TODO in the project_clarification.docx file the eigenvectors are the rows so we might need to transpose*/
+        return U;
+    }
+    else
+    {
+
+        WA = create_WA_matrix(data_matrix);
+        if (!strcmp(goal, "wam") || (WA == NULL))
+        {
+            return WA;
+        }
+
+        DD = create_DD_matrix(WA);
+        if (!strcmp(goal, "ddg") || (DD == NULL))
+        {
+            free_matrix(WA);
+            /* TODO pow_diag_matrix_inp(DD, -0.5); - this outputs DD^-1/2 like in the project_clarification.docx file*/
+            return DD;
+        }
+
+        NGL = create_NGL_matrix(WA, DD);
+        free_matrix(WA);
+        free_matrix(DD);
+
+        if (!strcmp(goal, "lnorm") || (NGL == NULL))
+        {
+            return NGL;
+        }
+
+        if (!strcmp(goal, "spk"))
+        {
+            U = create_k_eigenvectors_matrix(NGL, (int)k, 0);
+            free_matrix(NGL);
+            if (U == NULL)
+                return U;
+            T = get_row_normalized_matrix(U);
+            free_matrix(U);
+            return T;
+        }
+    }
+
+    return NULL;
+}
+
+#endif

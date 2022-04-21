@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: install valgrind
-      run: sudo apt-get install -y valgrind
+      run: sudo apt-get update && sudo apt-get install -y valgrind
 
     - name: make wa
       run: make test_wa_matrix
@@ -27,10 +27,10 @@ jobs:
     - name: valgrind ngl
       run: valgrind --error-exitcode=1 -s --leak-check=full ./out
 
-    - name: make u
-      run: make test_u_matrix
-    - name: valgrind u
-      run: valgrind --error-exitcode=1 -s --leak-check=full ./out
+    - name: make
+      run: make
+    - name: valgrind spkmeans
+      run: valgrind --error-exitcode=1 -s --leak-check=full ./spkmeans lnorm tests/blobs1.txt
 
     - name: clean
       run: make clean

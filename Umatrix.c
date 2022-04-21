@@ -1,13 +1,18 @@
 #include "Umatrix.h"
 
-Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
+Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 {
     /* Declaring variables. */
-    int iter_count = 0, n = NGL->n, i, k;
+    int iter_count = 0, n = NGL->n, i;
     double max_delta = -DBL_MAX;
-    Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
-
     Eigen_Pair *pairs_arr;
+    Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
+    if ((A == NULL) || (V == NULL))
+    {
+        free_matrix(A);
+        free_matrix(V);
+        return NULL;
+    }
 
     /* Jacobi algorithm. */
     do
@@ -15,12 +20,31 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
         Matrix *tmp, *P;
 
         P = create_rotation_matrix(A);
+        if (P == NULL)
+        {
+            free_matrix(A);
+            free_matrix(V);
+            return NULL;
+        }
         A_tag = transform_A(A, P);
+        if (A_tag == NULL)
+        {
+            free_matrix(A);
+            free_matrix(P);
+            free_matrix(V);
+            return A_tag;
+        }
 
         tmp = dot_matrix(V, P);
         free_matrix(V);
         free_matrix(P);
         V = tmp;
+        if (V == NULL)
+        {
+            free_matrix(A);
+            free_matrix(A_tag);
+            return V;
+        }
 
         /* Check convergence. */
         if (has_converged(A, A_tag))
@@ -33,59 +57,66 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL)
 
     } while ((++iter_count) < 100);
 
-#ifdef TESTING_JACOBI /* TODO For debugging only, remember to delete.*/
-    int j;
-    for (i = 0; i < A->m; i++)
-        printf("%0.3f ", A->vals[i][i]);
-    printf("\n\n");
-    for (i = 0; i < V->m; i++)
-    {
-        for (j = 0; j < V->n; j++)
-            printf("%.3f ", V->vals[i][j]);
-        printf("\n");
-    }
-#endif
-
     /* Ordering the eigenvalues and eigenvectors. */
     pairs_arr = get_Eigen_Pair_arr(A, V);
-    qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
+    if (pairs_arr == NULL)
+    {
+        free_matrix(A);
+        free_matrix(V);
+        return NULL;
+    }
+    if (for_output_print)
+    {
+        U = create_matrix_from_k_Eigen_Pair(pairs_arr, n, n, 1);
+    }
+    else
+    {
+        qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
+
+        /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
+        if (k == 0)
+        {
+            /* Eigengap Heuristic. */
+            for (i = 0; i < n / 2; i++)
+            {
+                double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
+                if (delta > max_delta) /* Bigger, not equal. */
+                {
+                    max_delta = delta;
+                    k = i + 1;
+                }
+            }
+        }
+        /* Create and return the U matrix. */
+        U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n, 0);
+    }
+
+    /* Freeing variables. */
+    if (!for_output_print)
+    {
+        for (i = 0; i < n; i++)
+            free(pairs_arr[i].vect);
+    }
+    free(pairs_arr);
 
     /* Freeing the matrices. */
     free_matrix(A); /* We already took the eigenvalues. */
     free(V->vals);
     free(V);
-    /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
-
-    /* Eigengap Heuristic. */
-    for (i = 0; i < n / 2; i++)
-    {
-        double delta = fabs(pairs_arr[i].val - pairs_arr[i + 1].val);
-        if (delta > max_delta) /* Bigger, not equal. */
-        {
-            max_delta = delta;
-            k = i + 1;
-        }
-    }
-
-    /* Create and return the U matrix. */
-    U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n);
-
-    /* Freeing variables. */
-    for (i = 0; i < n; i++)
-        free(pairs_arr[i].vect);
-    free(pairs_arr);
 
     return U;
 }
 
 Matrix *create_rotation_matrix(Matrix *A)
 {
-    Matrix *P = get_identity(A->m);
     Index ind = get_pivot_index(A);
     double theta = get_theta(A, ind);
     double t = get_t(theta);
     double c = get_c(t);
     double s = t * c;
+    Matrix *P = get_identity(A->m);
+    if (P == NULL)
+        return P;
 
     P->vals[ind.i][ind.j] = s;
     P->vals[ind.j][ind.i] = -s;
@@ -99,8 +130,15 @@ Matrix *transform_A(Matrix *A, Matrix *P)
 {
     Matrix *A_tag, *P_T, *tmp;
     P_T = transpose_matrix(P);
+    if (P_T == NULL)
+        return P_T;
 
     tmp = dot_matrix(P_T, A);
+    if (tmp == NULL)
+    {
+        free_matrix(P_T);
+        return tmp;
+    }
     A_tag = dot_matrix(tmp, P);
 
     free_matrix(tmp);
@@ -154,7 +192,7 @@ double get_c(double t)
 
 int has_converged(Matrix *A, Matrix *A_tag)
 {
-    const double eps = 1.0 * pow(10, -15);
+    const double eps = 1.0 * pow(10, -5);
     return (off_sqr_of_sym_matrix(A) - off_sqr_of_sym_matrix(A_tag)) <= eps;
 }
 
@@ -163,6 +201,8 @@ Eigen_Pair *get_Eigen_Pair_arr(Matrix *values, Matrix *vects)
     int i;
     Eigen_Pair *res;
     res = calloc(vects->m, sizeof(Eigen_Pair));
+    if (res == NULL)
+        return res;
 
     for (i = 0; i < vects->m; i++)
     {
@@ -184,29 +224,49 @@ int cmp_Eigen_Pair(const void *a, const void *b)
     return 0;
 }
 
-Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n)
+Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int include_vals)
 {
     int i, j;
-    double **arr = calloc(n, sizeof(double *));
+    double **arr = calloc(n + !!include_vals, sizeof(double *));
     Matrix *to;
 
     if (!arr)
     {
-        /* TODO handle error.*/
+        return NULL;
     }
 
-    for (i = 0; i < n; i++)
+    if (include_vals)
     {
-        arr[i] = calloc(k, sizeof(double));
-        if (!(arr[i]))
+        arr[0] = calloc(k, sizeof(double));
+        if (!(arr[0]))
         {
-            /* TODO handle error.*/
+            free(arr);
+            return NULL;
         }
         for (j = 0; j < k; j++)
-            arr[i][j] = pairs[j].vect[i]; /* The vectors are the columns. */
+        {
+            arr[0][j] = pairs[j].val;
+        }
     }
 
-    to = matrix_from_arr(arr, n, k);
-    free_vect_arr(arr, n);
+    for (i = 0 + !!include_vals; i < n + !!include_vals; i++)
+    {
+        if (include_vals)
+            arr[i] = pairs[i - !!include_vals].vect; /* The vectors are the rows. */
+        else
+        {
+            arr[i] = calloc(k, sizeof(double));
+            if (!(arr[i]))
+            {
+                free_vect_arr(arr, i - 1);
+                return NULL;
+            }
+            for (j = 0; j < k; j++)
+                arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the columns. */
+        }
+    }
+    to = matrix_from_arr(arr, n + !!include_vals, k);
+    free_vect_arr(arr, n + !!include_vals);
+
     return to;
 }

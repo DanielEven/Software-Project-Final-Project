@@ -1,7 +1,24 @@
-#include <Python.h>
+#include "matrix.h"
+#include "vector.h"
+#include "WAmatrix.h"
+#include "NGLmatrix.h"
+#include "Umatrix.h"
+#include "Tmatrix.h"
 
-/* Afunction to calculate the result, by sending the data_matrix to the right function - according to goal. */
-Matrix *calculate_requested(Matrix *data_matrix, Py_ssize_t, const char *goal);
+#include <string.h>
+#include <stdio.h>
 
-/* Make a PyObject from array and its sizes. */
-PyObject *convert_pointers_to_PyObject(double **ptr, Py_ssize_t size, Py_ssize_t size_sub);
+#define ERROR(msg)            \
+    printf("%s\n", msg);      \
+    exit(1);
+
+/* Function for input reading from C running. */
+Matrix *read_input(FILE *input_file);
+/* Getting the input dimensions from the input file. */
+int get_n(FILE *input_file);
+int get_d(FILE *input_file);
+/* Function for output printing in C running. */
+void write_output(Matrix *result);
+
+/* A function to calculate the result, by sending the data_matrix to the right function - according to goal. */
+Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal);

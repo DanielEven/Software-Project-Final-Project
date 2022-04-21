@@ -36,7 +36,8 @@ setup(
             # the qualified name of the extension module to build
             'spkmeansmodule',
             # the files to compile into our module relative to ``setup.py``
-            ['spkmeansmodule.c'],
+            ['spkmeansmodule.c', 'matrix.c', 'NGLmatrix.c', 'Umatrix.c',
+                'kmeans.c', 'spkmeans.c', 'vector.c', 'Tmatrix.c', 'WAmatrix.c'],
         ),
     ]
 )

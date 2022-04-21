@@ -6,6 +6,8 @@ Matrix *create_WA_matrix(Matrix *vects_rows)
     Matrix *res;
 
     res = alloc_matrix(vects_rows->m, vects_rows->m);
+    if (res == NULL)
+        return res;
 
     for (i = 0; i < vects_rows->m; i++)
     {

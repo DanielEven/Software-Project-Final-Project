@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+#include <stdio.h>
 
-#include <Python.h>
 
 /* Defining the matrix struct. */
 typedef struct Matrix
@@ -22,7 +22,6 @@ void free_matrix(Matrix *a);
 /* Creating a matrix.*/
 Matrix *dup_matrix(Matrix *a);
 Matrix *matrix_from_arr(double **arr, int m, int n);
-Matrix *matrix_from_PyList(PyObject *lst);
 
 /* Operations over matrices.
 Every function has 2 versions:
@@ -52,8 +51,12 @@ Matrix *get_identity(int n);
 /* A function to check if a matrix is diagonal. */
 int is_diag(Matrix *a);
 
-/* A function to calculate the squared off of a matrix, optimized for symmetric matrixes */
+/* A function to calculate the squared off of a matrix, optimized for symmetric matrices */
 double off_sqr_of_sym_matrix(Matrix *A);
+
+/* Functions for printing matrices */
+void print_matrix(Matrix *a);
+void print_row(double *row, int n);
 
 /* Size checking macros.*/
 #define SAME_SIZE(a, b) ((((a)->m) == ((b)->m)) && (((a)->n) == ((b)->n)))
