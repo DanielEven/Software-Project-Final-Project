@@ -27,11 +27,6 @@ jobs:
     - name: valgrind ngl
       run: valgrind --error-exitcode=1 -s --leak-check=full ./out
 
-    - name: make u
-      run: make test_u_matrix
-    - name: valgrind u
-      run: valgrind --error-exitcode=1 -s --leak-check=full ./out
-
     - name: make
       run: make
     - name: valgrind spkmeans
