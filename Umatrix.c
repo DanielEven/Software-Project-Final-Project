@@ -6,7 +6,8 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     int iter_count = 0, n = NGL->n, i;
     double max_delta = -DBL_MAX;
     Eigen_Pair *pairs_arr;
-    Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U;
+    Matrix *A = dup_matrix(NGL), *V = get_identity(NGL->m), *A_tag, *U, *tr;
+
     if ((A == NULL) || (V == NULL))
     {
         free_matrix(A);
@@ -57,14 +58,21 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 
     } while ((++iter_count) < 100);
 
-    /* Ordering the eigenvalues and eigenvectors. */
+    /* Extract the eigenvalues and eigenvectors. */
+    tr = transpose_matrix(V);
+    free_matrix(V);
+    V = tr;
     pairs_arr = get_Eigen_Pair_arr(A, V);
+
     if (pairs_arr == NULL)
     {
         free_matrix(A);
         free_matrix(V);
         return NULL;
     }
+
+    /* Ordering the eigenvalues and eigenvectors. */
+
     if (for_output_print)
     {
         U = create_matrix_from_k_Eigen_Pair(pairs_arr, n, n, 1);
@@ -73,7 +81,6 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     {
         qsort(pairs_arr, n, sizeof(Eigen_Pair), cmp_Eigen_Pair);
 
-        /* We are not freeing the pointers inside V->vals, because of the Eigen_Pair arr is using them. */
         if (k == 0)
         {
             /* Eigengap Heuristic. */
@@ -87,22 +94,21 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
                 }
             }
         }
-        /* Create and return the U matrix. */
-        U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n, 0);
+        if (k == 1)
+        {
+            U = NULL; /* Can't apply kmeans. */
+        }
+        else
+        {
+            /* Create and return the U matrix. */
+            U = create_matrix_from_k_Eigen_Pair(pairs_arr, k, n, 0);
+        }
     }
 
-    /* Freeing variables. */
-    if (!for_output_print)
-    {
-        for (i = 0; i < n; i++)
-            free(pairs_arr[i].vect);
-    }
-    free(pairs_arr);
-
-    /* Freeing the matrices. */
+    /* Freeing the variables. */
+    free(pairs_arr); /* We are not freeing the pointers to the vectors, because the they are in V. */
     free_matrix(A); /* We already took the eigenvalues. */
-    free(V->vals);
-    free(V);
+    free_matrix(V);
 
     return U;
 }
@@ -251,19 +257,14 @@ Matrix *create_matrix_from_k_Eigen_Pair(Eigen_Pair *pairs, int k, int n, int inc
 
     for (i = 0 + !!include_vals; i < n + !!include_vals; i++)
     {
-        if (include_vals)
-            arr[i] = pairs[i - !!include_vals].vect; /* The vectors are the rows. */
-        else
+        arr[i] = calloc(k, sizeof(double));
+        if (!(arr[i]))
         {
-            arr[i] = calloc(k, sizeof(double));
-            if (!(arr[i]))
-            {
-                free_vect_arr(arr, i - 1);
-                return NULL;
-            }
-            for (j = 0; j < k; j++)
-                arr[i][j] = pairs[j].vect[i - 1]; /* The vectors are the columns. */
+            free_vect_arr(arr, i - 1);
+            return NULL;
         }
+        for (j = 0; j < k; j++)
+            arr[i][j] = pairs[j].vect[i - !!include_vals]; /* The vectors are the columns. */
     }
     to = matrix_from_arr(arr, n + !!include_vals, k);
     free_vect_arr(arr, n + !!include_vals);
