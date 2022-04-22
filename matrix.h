@@ -6,7 +6,6 @@
 #include <math.h>
 #include <stdio.h>
 
-
 /* Defining the matrix struct. */
 typedef struct Matrix
 {

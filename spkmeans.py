@@ -141,7 +141,7 @@ def main():
         print_output(result_df, chosen_indexes)
 
     except:
-        print("An Error Has Occurred!")
+        print("An Error Has Occurred")
         sys.exit(1)
 
 
