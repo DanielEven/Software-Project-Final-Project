@@ -185,7 +185,7 @@ function verdict_memory_loss() {
 	# this function shall be used only upon the C interface comprehensive test
 	# this function assumes the $valgrind_file matches the very last running of a test using the C interface
 	
-	bytes_lost=$(cat $valgrind_file | grep "LEAK SUMMARY" -A 1 | tail -n1 | awk '{print $4}')
+	bytes_lost=$(cat $valgrind_file | grep "HEAP SUMMARY" -A 1 | tail -n1 | awk '{print $6}')
 	
 	if [[ ${bytes_lost//,} -eq 0 ]]; then
 		echo -ne '\033[1;32mNO MEMORY LEAK\e[0m' # print out a 'success' message

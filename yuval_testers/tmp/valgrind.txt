@@ -1,15 +1,15 @@
-==19054== Memcheck, a memory error detector
-==19054== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==19054== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==19054== Command: ./spkmeans jacobi yuval_testers/testfiles//jacobi_20.txt
-==19054== Parent PID: 18359
-==19054== 
-==19054== 
-==19054== HEAP SUMMARY:
-==19054==     in use at exit: 0 bytes in 0 blocks
-==19054==   total heap usage: 49 allocs, 49 frees, 9,432 bytes allocated
-==19054== 
-==19054== All heap blocks were freed -- no leaks are possible
-==19054== 
-==19054== For lists of detected and suppressed errors, rerun with: -s
-==19054== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==8601== Memcheck, a memory error detector
+==8601== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==8601== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==8601== Command: ./spkmeans jacobi yuval_testers/testfiles//jacobi_21.txt
+==8601== Parent PID: 7804
+==8601== 
+==8601== 
+==8601== HEAP SUMMARY:
+==8601==     in use at exit: 0 bytes in 0 blocks
+==8601==   total heap usage: 41 allocs, 41 frees, 9,304 bytes allocated
+==8601== 
+==8601== All heap blocks were freed -- no leaks are possible
+==8601== 
+==8601== For lists of detected and suppressed errors, rerun with: -s
+==8601== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
