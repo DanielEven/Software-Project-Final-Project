@@ -1,12 +1,6 @@
-Traceback (most recent call last):
-  File "spkmeans.py", line 3, in <module>
-    import numpy as np
-  File "/home/dawsl/.local/lib/python3.8/site-packages/numpy/__init__.py", line 150, in <module>
-    from . import core
-  File "/home/dawsl/.local/lib/python3.8/site-packages/numpy/core/__init__.py", line 72, in <module>
-    from . import numeric
-  File "/home/dawsl/.local/lib/python3.8/site-packages/numpy/core/numeric.py", line 219, in <module>
-    def ones_like(a, dtype=None, order='K', subok=True, shape=None):
-  File "/home/dawsl/.local/lib/python3.8/site-packages/numpy/core/overrides.py", line 197, in decorator
-    source_object = compile(
-KeyboardInterrupt
+44,78,91,92,63
+0.0649,0.0000,0.0000,0.0000,0.0000
+0.0000,1.0000,0.0000,0.0000,0.0000
+0.0000,0.0000,1.0000,0.0000,0.0000
+0.0000,0.0000,0.0000,1.0000,0.0000
+0.0000,0.0000,0.0000,0.0000,1.0000

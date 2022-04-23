@@ -1,0 +1,14 @@
+REQUIRED EFFICIENCY FOR: c: lnorm: is:
+
+0.65 seconds.
+Good luck next time!
+
+
+
+REQUIRED EFFICIENCY FOR: c: jacobi: is:
+
+11.5 seconds.
+Good luck next time!
+
+
+
