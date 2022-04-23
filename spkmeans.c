@@ -115,7 +115,6 @@ Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
     if (!strcmp(goal, "jacobi"))
     {
         U = create_k_eigenvectors_matrix(data_matrix, (int)k, 1);
-        /* TODO in the project_clarification.docx file the eigenvectors are the rows so we might need to transpose*/
         return U;
     }
     else
@@ -131,7 +130,6 @@ Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
         if (!strcmp(goal, "ddg") || (DD == NULL))
         {
             free_matrix(WA);
-            /* TODO pow_diag_matrix_inp(DD, -0.5); - this outputs DD^-1/2 like in the project_clarification.docx file*/
             return DD;
         }
 
