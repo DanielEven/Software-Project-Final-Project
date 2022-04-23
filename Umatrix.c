@@ -147,6 +147,7 @@ Matrix *transform_A(Matrix *A, Matrix *P, Index ind)
         if ((r != i) && (r != j))
         {
             A_tag->vals[r][i] = c * A->vals[r][i] - s * A->vals[r][j];
+            A_tag->vals[i][r] = A_tag->vals[r][i];
         }
     }
 
@@ -155,12 +156,17 @@ Matrix *transform_A(Matrix *A, Matrix *P, Index ind)
         if ((r != i) && (r != j))
         {
             A_tag->vals[r][j] = c * A->vals[r][j] + s * A->vals[r][i];
+            A_tag->vals[j][r] = A_tag->vals[r][j];
         }
     }
 
     A_tag->vals[i][i] = c * c * A->vals[i][i] + s * s * A->vals[j][j] - 2 * s * c * A->vals[i][j];
 
     A_tag->vals[j][j] = s * s * A->vals[i][i] + c * c * A->vals[j][j] + 2 * s * c * A->vals[i][j];
+
+    A_tag->vals[i][j] = 0;
+
+    A_tag->vals[j][i] = 0;
 
     return A_tag;
 }
