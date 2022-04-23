@@ -227,6 +227,24 @@ int is_diag(Matrix *a)
     return 1;
 }
 
+int is_symetric(Matrix *a)
+{
+    int i, j;
+
+    if (!IS_SQUARE(a))
+        return 0;
+
+    for (i = 0; i < a->m; i++)
+    {
+        for (j = i; j < a->n; j++)
+        {
+            if (a->vals[i][j] != a->vals[j][i])
+                return 0;
+        }
+    }
+    return 1;
+}
+
 double off_sqr_of_sym_matrix(Matrix *A)
 {
     double sum = 0;

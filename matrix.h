@@ -50,6 +50,9 @@ Matrix *get_identity(int n);
 /* A function to check if a matrix is diagonal. */
 int is_diag(Matrix *a);
 
+/* A function to check if a matrix is symetric. */
+int is_symetric(Matrix *a);
+
 /* A function to calculate the squared off of a matrix, optimized for symmetric matrices */
 double off_sqr_of_sym_matrix(Matrix *A);
 

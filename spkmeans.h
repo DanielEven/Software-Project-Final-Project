@@ -8,8 +8,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#define ERROR(msg)            \
-    printf("%s\n", msg);      \
+#define ERROR(msg)       \
+    printf("%s\n", msg); \
     exit(1);
 
 /* Function for input reading from C running. */
@@ -22,3 +22,9 @@ void write_output(Matrix *result);
 
 /* A function to calculate the result, by sending the data_matrix to the right function - according to goal. */
 Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal);
+
+#define CHECK_SYMETRIC(mat)      \
+    if (!is_symetric(mat))       \
+    {                            \
+        ERROR("Invalid Input!"); \
+    }

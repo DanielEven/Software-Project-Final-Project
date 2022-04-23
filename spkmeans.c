@@ -114,6 +114,7 @@ Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
 
     if (!strcmp(goal, "jacobi"))
     {
+        CHECK_SYMETRIC(data_matrix);
         U = create_k_eigenvectors_matrix(data_matrix, (int)k, 1);
         return U;
     }
