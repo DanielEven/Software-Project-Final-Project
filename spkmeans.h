@@ -23,6 +23,9 @@ void write_output(Matrix *result);
 /* A function to calculate the result, by sending the data_matrix to the right function - according to goal. */
 Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal);
 
+/* A function to flip the -0.0000 of the values to be 0.0000 in the first row, for the printing. */
+void fix_first_row_for_print(double *row, int n);
+
 #define CHECK_SYMETRIC(mat)      \
     if (!is_symetric(mat))       \
     {                            \

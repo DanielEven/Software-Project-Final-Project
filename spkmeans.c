@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
         ERROR("Invalid Input!");
     }
 
+    if (!strcmp(goal, "jacobi"))
+        fix_first_row_for_print(result->vals[0], result->n);
+
     print_matrix(result);
     free_matrix(result);
     return 0;
@@ -156,6 +159,16 @@ Matrix *calculate_requested(Matrix *data_matrix, long int k, const char *goal)
     }
 
     return NULL;
+}
+
+void fix_first_row_for_print(double *row, int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        if ((row[i] > -10e-5) && (row[i] < 0))
+            row[i] = -row[i];
+    }
 }
 
 #endif

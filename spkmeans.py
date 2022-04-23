@@ -67,14 +67,19 @@ def kmeans_pp(data, k):
     return pd.DataFrame(cents), cents_indexes
 
 
-def print_output(result, chosen_indexes):
+def print_output(result, chosen_indexes, for_jacobi):
     # Print the chosen indexes.
     if chosen_indexes is not None:
         print_initials(chosen_indexes)
 
     # Print each row.
-    for index, centroid in result.iterrows():
-        print_centroid(centroid)
+    for index, row in result.iterrows():
+
+        if (index == 0) and for_jacobi:
+            # Flipping the -0.0000 of the values to be 0.0000
+            row = [x if (x <= -10e-5) or (x >= 0) else -x for x in row]
+
+        print_row(row)
 
 
 def print_initials(initials):
@@ -90,14 +95,14 @@ def print_initials(initials):
             print()
 
 
-def print_centroid(centroid):
-    for index, coor in enumerate(centroid):
+def print_row(row):
+    for index, coor in enumerate(row):
 
         # Print the coordinate.
         print("%.4f" % coor, end="")
 
         # Print, or newline.
-        if index != (len(centroid) - 1):
+        if index != (len(row) - 1):
             print(',', end="")
         else:
             print()
@@ -138,7 +143,7 @@ def main():
             chosen_indexes = None
 
         # Writing the calculated centroids.
-        print_output(result_df, chosen_indexes)
+        print_output(result_df, chosen_indexes, goal == "jacobi")
 
     except:
         print("An Error Has Occurred")

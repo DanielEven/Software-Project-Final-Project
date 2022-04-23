@@ -50,7 +50,8 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
         /* Check convergence. */
         if (has_converged(A, A_tag))
         {
-            free_matrix(A_tag);
+            free_matrix(A);
+            A = A_tag;
             break;
         }
         free_matrix(A);
