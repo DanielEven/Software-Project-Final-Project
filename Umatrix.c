@@ -135,11 +135,12 @@ Matrix *create_rotation_matrix(Matrix *A, Index ind)
 
 Matrix *transform_A(Matrix *A, Matrix *P, Index ind)
 {
-    Matrix *A_tag, *P_T, *tmp;
+    Matrix *A_tag = dup_matrix(A);
     int r, i = ind.i, j = ind.j;
     double s = P->vals[i][j], c = P->vals[i][i];
 
-    A_tag = dup_matrix(A);
+    if (A_tag == NULL)
+        return NULL;
 
     for (r = 0; r < A->m; r++)
     {
