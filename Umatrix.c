@@ -19,15 +19,16 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
     do
     {
         Matrix *tmp, *P;
+        Index ind = get_pivot_index(A);
 
-        P = create_rotation_matrix(A);
+        P = create_rotation_matrix(A, ind);
         if (P == NULL)
         {
             free_matrix(A);
             free_matrix(V);
             return NULL;
         }
-        A_tag = transform_A(A, P);
+        A_tag = transform_A(A, P, ind);
         if (A_tag == NULL)
         {
             free_matrix(A);
@@ -108,15 +109,14 @@ Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print)
 
     /* Freeing the variables. */
     free(pairs_arr); /* We are not freeing the pointers to the vectors, because the they are in V. */
-    free_matrix(A); /* We already took the eigenvalues. */
+    free_matrix(A);  /* We already took the eigenvalues. */
     free_matrix(V);
 
     return U;
 }
 
-Matrix *create_rotation_matrix(Matrix *A)
+Matrix *create_rotation_matrix(Matrix *A, Index ind)
 {
-    Index ind = get_pivot_index(A);
     double theta = get_theta(A, ind);
     double t = get_t(theta);
     double c = get_c(t);
@@ -133,23 +133,34 @@ Matrix *create_rotation_matrix(Matrix *A)
     return P;
 }
 
-Matrix *transform_A(Matrix *A, Matrix *P)
+Matrix *transform_A(Matrix *A, Matrix *P, Index ind)
 {
     Matrix *A_tag, *P_T, *tmp;
-    P_T = transpose_matrix(P);
-    if (P_T == NULL)
-        return P_T;
+    int r, i = ind.i, j = ind.j;
+    double s = P->vals[i][j], c = P->vals[i][i];
 
-    tmp = dot_matrix(P_T, A);
-    if (tmp == NULL)
+    A_tag = dup_matrix(A);
+
+    for (r = 0; r < A->m; r++)
     {
-        free_matrix(P_T);
-        return tmp;
+        if ((r != i) && (r != j))
+        {
+            A_tag->vals[r][i] = c * A->vals[r][i] - s * A->vals[r][j];
+        }
     }
-    A_tag = dot_matrix(tmp, P);
 
-    free_matrix(tmp);
-    free_matrix(P_T);
+    for (r = 0; r < A->m; r++)
+    {
+        if ((r != i) && (r != j))
+        {
+            A_tag->vals[r][j] = c * A->vals[r][j] + s * A->vals[r][i];
+        }
+    }
+
+    A_tag->vals[i][i] = c * c * A->vals[i][i] + s * s * A->vals[j][j] - 2 * s * c * A->vals[i][j];
+
+    A_tag->vals[j][j] = s * s * A->vals[i][i] + c * c * A->vals[j][j] + 2 * s * c * A->vals[i][j];
+
     return A_tag;
 }
 

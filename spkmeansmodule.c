@@ -10,6 +10,9 @@
 #include "spkmeans.h"
 #include "kmeans.h"
 
+#define MAX_ITER 300
+#define EPSILON 0
+
 /* A helper method to create matrix from python list. */
 Matrix *matrix_from_PyList(PyObject *lst);
 
@@ -101,7 +104,7 @@ static PyObject *kmeans_capi(PyObject *self, PyObject *args)
         return NULL;
     }
 
-    c_result = kmeans(data, cents, n, k, d, 300, 0);
+    c_result = kmeans(data, cents, n, k, d, MAX_ITER, EPSILON);
 
     /* Convert the result to Python list. */
     result = convert_vect_arr_to_PyObject(c_result, k, d);

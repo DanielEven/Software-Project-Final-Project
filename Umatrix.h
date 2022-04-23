@@ -13,12 +13,12 @@ The function returns a matrix with the k eigenvectors with the lowest eigenvalue
 Matrix *create_k_eigenvectors_matrix(Matrix *NGL, int k, int for_output_print);
 
 /* A function to create the rotation matrix P from the matrix A. */
-Matrix *create_rotation_matrix(Matrix *A);
+Matrix *create_rotation_matrix(Matrix *A, Index ind);
 
 /* A function to calculate A_tag as:
 A_tag = (P^t) * A * P
 */
-Matrix *transform_A(Matrix *A, Matrix *P);
+Matrix *transform_A(Matrix *A, Matrix *P, Index ind);
 
 /* Getting the pivot from A as Index. */
 Index get_pivot_index(Matrix *A);
