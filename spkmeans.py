@@ -22,7 +22,7 @@ def get_arguments():
 
         return k, goal, file_name
     except (ValueError,  AssertionError):
-        print("Invalid Input!")
+        print("Invalid Input!", end = "")
         sys.exit(1)
 
 
@@ -119,7 +119,7 @@ def main():
 
         # Checking that 0 < k < n.
         if (k < 0) or (k >= data.shape[0]):
-            print("Invalid Input!")
+            print("Invalid Input!", end = "")
             sys.exit(1)
 
         # Use the Normalized Spectral Clustering Algorithm in order to make the data ready for kmeans.
@@ -146,7 +146,7 @@ def main():
         print_output(result_df, chosen_indexes, goal == "jacobi")
 
     except:
-        print("An Error Has Occurred")
+        print("An Error Has Occurred", end = "")
         sys.exit(1)
 
 

@@ -9,7 +9,7 @@
 #include <stdio.h>
 
 #define ERROR(msg)       \
-    printf("%s\n", msg); \
+    printf("%s", msg); \
     exit(1);
 
 /* Function for input reading from C running. */
